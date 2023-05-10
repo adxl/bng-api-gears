@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  api:
+    container_name: bng_api_gears
+    image: node:18-alpine
+    user: node
+    working_dir: /home/node
+    env_file: .env
+    ports:
+      - 9004:9000
+    volumes:
+      - .:/home/node
+    command: /bin/sh -c "npm i && npm run start:dev"
+    labels:
+          - "traefik.enable=true"
+          - "traefik.http.routers.gears.rule=PathPrefix(`/gears`)"
+    networks:
+      - bng
+
+  db:
+    container_name: bng_db_gears
+    image: postgres:13-alpine
+    ports:
+      - 54324:5432
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+    volumes:
+      - bng-gears-db-data:/var/lib/postgresql/data:rw
+
+volumes:
+  bng-gears-db-data: {}
+
+networks:
+  bng:
+    external: true
+ 
