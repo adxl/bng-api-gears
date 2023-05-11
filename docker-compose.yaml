@@ -7,15 +7,11 @@ services:
     user: node
     working_dir: /home/node
     env_file: .env
-    ports:
-      - 9004:9000
     volumes:
       - .:/home/node
     command: /bin/sh -c "npm i && npm run start:dev"
-    labels:
-          - "traefik.enable=true"
-          - "traefik.http.routers.gears.rule=PathPrefix(`/gears`)"
     networks:
+      - default
       - bng
 
   db:
@@ -29,11 +25,15 @@ services:
       POSTGRES_DB: db
     volumes:
       - bng-gears-db-data:/var/lib/postgresql/data:rw
+    networks:
+      - default
 
 volumes:
   bng-gears-db-data: {}
 
 networks:
+  default:
+    driver: bridge
   bng:
     external: true
  
