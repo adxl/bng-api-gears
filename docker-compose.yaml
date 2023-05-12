@@ -1,11 +1,11 @@
-version: "3"
+version: '3'
 
 services:
   api:
     container_name: bng_api_gears
-    image: node:18-alpine
-    user: node
-    working_dir: /home/node
+    build:
+      context: docker/api
+      target: development
     env_file: .env
     volumes:
       - .:/home/node
@@ -36,4 +36,3 @@ networks:
     driver: bridge
   bng:
     external: true
- 
