@@ -2,6 +2,7 @@ name: Gears API CI
 
 on:
   push:
+  workflow_dispatch:
 
 jobs:
   build:
