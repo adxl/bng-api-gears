@@ -3,6 +3,9 @@ version: '3'
 services:
   gears-api-service:
     image: adxl/bng-api-gears:latest
+    environment:
+      STAGE: production
+      DATABASE_URL: '@DATABASE_URL@'
     networks:
       - bng
       - default
@@ -12,9 +15,9 @@ services:
   gears-db-service:
     image: adxl/bng-db-gears:latest
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: '@DB_USER@'
+      POSTGRES_PASSWORD: '@DB_PASSWORD@'
+      POSTGRES_DB: '@DB_NAME@'
     networks:
       - default
     deploy:
