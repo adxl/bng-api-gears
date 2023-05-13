@@ -1,16 +1,27 @@
 version: '3'
 
 services:
-  api:
+  gears-api-service:
     image: adxl/bng-api-gears:latest
+    networks:
+      - bng
+      - default
     deploy:
       replicas: 3
 
-  db:
+  gears-db-service:
     image: adxl/bng-db-gears:latest
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
+    networks:
+      - default
     deploy:
       replicas: 2
+
+networks:
+  default:
+    driver: overlay
+  bng:
+    external: true

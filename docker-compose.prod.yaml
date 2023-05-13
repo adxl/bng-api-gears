@@ -1,13 +1,13 @@
 version: '3'
 
 services:
-  api:
+  gears-api-service:
     image: adxl/bng-api-gears:latest
     build:
       context: .
       target: production
 
-  db:
+  gears-db-service:
     image: adxl/bng-db-gears:latest
     build:
       context: .
