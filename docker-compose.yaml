@@ -4,7 +4,7 @@ services:
   api:
     container_name: bng_api_gears
     build:
-      context: docker/api
+      context: .
       target: development
     env_file: .env
     volumes:
@@ -16,7 +16,9 @@ services:
 
   db:
     container_name: bng_db_gears
-    image: postgres:13-alpine
+    build:
+      context: .
+      dockerfile: Dockerfile.db
     ports:
       - 54324:5432
     environment:
