@@ -14,9 +14,7 @@ services:
       - bng
 
   gears-db-service:
-    build:
-      context: .
-      dockerfile: Dockerfile.db
+    image: postgresql:13-alpine
     ports:
       - 54324:5432
     environment:
