@@ -14,7 +14,7 @@ services:
       - bng
 
   gears-db-service:
-    image: postgresql:13-alpine
+    image: postgres:13-alpine
     ports:
       - 54324:5432
     environment:
