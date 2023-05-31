@@ -6,6 +6,7 @@ services:
     environment:
       STAGE: production
       DATABASE_URL: '@DATABASE_URL@'
+      SENTRY_DSN: '@SENTRY_DSN@'
     networks:
       - bng
     deploy:
