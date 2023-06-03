@@ -15,17 +15,14 @@ export class Station {
   @Column({ type: 'float' })
   longitude: number;
 
-  @Column({ type: 'boolean' })
-  primary: boolean;
+  @Column({ type: 'uuid', nullable: true })
+  eventId: string;
 
   @OneToMany(() => Vehicle, (vehicle) => vehicle.station)
   vehicles: Vehicle[];
 
-  @Column({ type: 'boolean' })
+  @Column({ type: 'boolean', default: true })
   active: boolean;
-
-  @Column({ type: 'boolean' })
-  removed: boolean;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { VehicleType } from '../vehiclesTypes/vehiclesTypes.entity';
+import { VehicleType } from '../vehicles-types/vehicles-types.entity';
 
 @Entity()
 export class VehicleSkin {

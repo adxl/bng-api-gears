@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { VehicleSkin } from '../vehicles-skins/vehicles-skins.entity';
 import { Vehicle } from '../vehicles/vehicles.entity';
-import { VehicleSkin } from '../vehiclesSkins/vehiclesSkins.entity';
 
 @Entity()
 export class VehicleType {

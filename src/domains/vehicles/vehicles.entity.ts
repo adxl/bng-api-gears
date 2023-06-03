@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Ride } from '../rides/rides.entity';
 import { Station } from '../stations/stations.entity';
-import { VehicleType } from '../vehiclesTypes/vehiclesTypes.entity';
+import { VehicleType } from '../vehicles-types/vehicles-types.entity';
 
 @Entity()
 export class Vehicle {
@@ -14,20 +14,14 @@ export class Vehicle {
   @Column({ type: 'int' })
   year: number;
 
-  @ManyToOne(() => Station, (station) => station.vehicles)
+  @ManyToOne(() => Station, (station) => station.vehicles, { nullable: true })
   station: Station;
-
-  @Column({ type: 'uuid' })
-  eventId: string;
 
   @OneToMany(() => Ride, (ride) => ride.vehicle)
   rides: Ride[];
 
-  @Column({ type: 'boolean' })
+  @Column({ type: 'boolean', default: true })
   active: boolean;
-
-  @Column({ type: 'boolean' })
-  removed: boolean;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
