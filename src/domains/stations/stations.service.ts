@@ -20,7 +20,7 @@ export class StationsService {
     const data = await this.stationsRepository.findOneBy({ id });
 
     if (!data) {
-      throw new RpcException(new NotFoundException());
+      throw new RpcException(new NotFoundException(`Station ${id} not found`));
     }
 
     return data;

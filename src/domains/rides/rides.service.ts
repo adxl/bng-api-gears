@@ -1,23 +1,32 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
-import { CreateStationDto, UpdateStationDto } from './stations.dto';
-import { Station } from './stations.entity';
+import { InsertResult, Repository, UpdateResult } from 'typeorm';
+import { VehiclesService } from '../vehicles/vehicles.service';
+import { CreateRideDto, UpdateRideInformationDto, UpdateRideReviewDto } from './rides.dto';
+import { Ride } from './rides.entity';
 
 @Injectable()
-export class StationsService {
+export class RidesService {
   constructor(
-    @InjectRepository(Station)
-    private readonly stationsRepository: Repository<Station>,
+    @InjectRepository(Ride)
+    private readonly ridessRepository: Repository<Ride>,
+    @Inject(VehiclesService) private readonly vehiclesService: VehiclesService,
   ) {}
 
-  findAll(): Promise<Station[]> {
-    return this.stationsRepository.find();
+  findAll(): Promise<Ride[]> {
+    return this.ridessRepository.find({
+      relations: ['vehicle', 'startStation', 'endStation'],
+    });
   }
 
-  async findOne(id: string): Promise<Station> {
-    const data = await this.stationsRepository.findOneBy({ id });
+  async findOne(id: string): Promise<Ride> {
+    const data = await this.ridessRepository.findOne({
+      where: {
+        id,
+      },
+      relations: ['vehicle', 'startStation', 'endStation'],
+    });
 
     if (!data) {
       throw new RpcException(new NotFoundException());
@@ -26,16 +35,28 @@ export class StationsService {
     return data;
   }
 
-  async create(data: CreateStationDto): Promise<InsertResult> {
-    return this.stationsRepository.insert(data);
+  async create(data: CreateRideDto): Promise<InsertResult> {
+    const station = (await this.vehiclesService.findOne(data.vehicle.id)).station;
+
+    if (!station) {
+      throw new RpcException(new BadRequestException(`Vehicle ${data.vehicle.id} is not available`));
+    }
+
+    return this.ridessRepository.insert({ ...data, startStation: station });
   }
 
-  async update(id: string, data: UpdateStationDto): Promise<UpdateResult> {
+  async updateInformation(id: string, data: UpdateRideInformationDto): Promise<UpdateResult> {
+    const ride = await this.findOne(id);
+
+    const result = await this.ridessRepository.update(id, { ...data, endedAt: new Date() });
+
+    await this.vehiclesService.update(ride.vehicle.id, { station: data.endStation });
+
+    return result;
+  }
+
+  async updateReview(id: string, data: UpdateRideReviewDto): Promise<UpdateResult> {
     await this.findOne(id);
-    return this.stationsRepository.update(id, data);
-  }
-
-  async remove(id: string): Promise<DeleteResult> {
-    return this.stationsRepository.delete(id);
+    return this.ridessRepository.update(id, data);
   }
 }

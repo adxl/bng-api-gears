@@ -14,8 +14,8 @@ export class Ride {
   @ManyToOne(() => Station)
   startStation: Station;
 
-  @ManyToOne(() => Station)
-  endStation: Station;
+  @ManyToOne(() => Station, { nullable: true })
+  endStation: Station | null;
 
   @OneToOne(() => Report)
   @JoinColumn()
@@ -30,9 +30,9 @@ export class Ride {
   @Column({ type: 'timestamp', nullable: true })
   endedAt: Date | null;
 
-  @Column({ type: 'int' })
-  review: number;
+  @Column({ type: 'int', nullable: true })
+  review: number | null;
 
-  @Column({ type: 'varchar' })
-  comment: string;
+  @Column({ type: 'varchar', nullable: true })
+  comment: string | null;
 }

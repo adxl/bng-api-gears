@@ -1,10 +1,11 @@
 import { Type } from 'class-transformer';
-import { IsBoolean, IsInt, IsOptional, IsUUID, Max, Min, ValidateNested } from 'class-validator';
+import { IsBoolean, IsInt, IsNotEmptyObject, IsOptional, IsUUID, Max, Min, ValidateNested } from 'class-validator';
 import { EntityReference } from 'src/types';
 
 export class CreateVehicleDto {
   @ValidateNested()
   @Type(() => EntityReference)
+  // @IsNotEmptyObject()
   type: EntityReference;
 
   @IsInt()
@@ -12,10 +13,10 @@ export class CreateVehicleDto {
   @Max(3000)
   year: number;
 
-  @IsOptional()
   @ValidateNested()
   @Type(() => EntityReference)
-  station?: EntityReference;
+  @IsNotEmptyObject()
+  station: EntityReference;
 }
 
 export class UpdateVehicleDto {
