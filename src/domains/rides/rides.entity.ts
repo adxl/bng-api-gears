@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Report } from '../reports/reports.entity';
 import { Station } from '../stations/stations.entity';
 import { Vehicle } from '../vehicles/vehicles.entity';
@@ -17,8 +17,7 @@ export class Ride {
   @ManyToOne(() => Station, { nullable: true })
   endStation: Station | null;
 
-  @OneToOne(() => Report)
-  @JoinColumn()
+  @OneToOne(() => Report, (report) => report.ride)
   report: Report;
 
   @Column('uuid')

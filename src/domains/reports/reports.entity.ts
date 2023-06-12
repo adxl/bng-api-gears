@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Ride } from '../rides/rides.entity';
 
 export enum ReportStatus {
@@ -12,7 +12,8 @@ export class Report {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToOne(() => Ride, (ride) => ride.report)
+  @OneToOne(() => Ride, (ride) => ride.report, { nullable: false })
+  @JoinColumn()
   ride: Ride;
 
   @Column({ type: 'enum', enum: ReportStatus, default: ReportStatus.OPEN })
