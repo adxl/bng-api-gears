@@ -1,6 +1,6 @@
 import { IsString, IsUUID } from 'class-validator';
 
-export class TokenDto {
+export class RequestToken {
   @IsString()
   token: string;
 
