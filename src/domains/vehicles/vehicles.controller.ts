@@ -1,17 +1,24 @@
-import { BadRequestException, Controller } from '@nestjs/common';
+import { BadRequestException, Controller, UseGuards } from '@nestjs/common';
 import { EventPattern, RpcException } from '@nestjs/microservices';
 import { CreateVehicleDto, UpdateVehicleDtoWrapper } from './vehicles.dto';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 import { VehiclesService } from './vehicles.service';
 import { Vehicle } from './vehicles.entity';
+import { AuthGuard } from 'src/gears.guard';
 
 @Controller()
 export class VehiclesController {
   constructor(private readonly vehiclesService: VehiclesService) {}
 
   @EventPattern('vehicles.findAll')
+  @UseGuards(AuthGuard(['*']))
   findAll(): Promise<Vehicle[]> {
     return this.vehiclesService.findAll();
+  }
+
+  @EventPattern('vehicles.findAvailable')
+  findAvailable(stationId: string): Promise<Vehicle[]> {
+    return this.vehiclesService.findAvailable(stationId);
   }
 
   @EventPattern('vehicles.findOne')
