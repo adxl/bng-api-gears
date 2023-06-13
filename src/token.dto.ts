@@ -1,9 +1,9 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsString, IsUUID } from 'class-validator';
 
 export class TokenDto {
   @IsString()
   token: string;
 
-  @IsOptional()
+  @IsUUID()
   userId: string;
 }

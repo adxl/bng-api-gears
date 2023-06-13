@@ -1,14 +1,17 @@
-import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Inject, Injectable, Logger } from '@nestjs/common';
 import { TokenDto } from './token.dto';
 import { ClientProxy } from '@nestjs/microservices';
 import { AUTH_SERVICE } from './constants';
 import { UserRole } from './types/user-role';
 import { catchError, of } from 'rxjs';
+import { SentryRpcFilter } from './filters/sentry.filter';
 
 export const AuthGuard = (roles: Array<UserRole | '*'>) => {
   @Injectable()
   class _AuthGuard implements CanActivate {
     constructor(@Inject(AUTH_SERVICE) public readonly authProxy: ClientProxy) {}
+
+    public readonly logger = new Logger(SentryRpcFilter.name);
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
       const jwt: TokenDto = context.switchToHttp().getRequest();
@@ -34,7 +37,7 @@ export const AuthGuard = (roles: Array<UserRole | '*'>) => {
             if (typeof value !== 'string') reject('Access denied !');
             resolve(value);
           });
-      }).catch((err) => console.error(err));
+      }).catch((err) => this.logger.error(err));
     }
   }
 

@@ -16,11 +16,6 @@ export class VehiclesController {
     return this.vehiclesService.findAll();
   }
 
-  @EventPattern('vehicles.findAvailable')
-  findAvailable(stationId: string): Promise<Vehicle[]> {
-    return this.vehiclesService.findAvailable(stationId);
-  }
-
   @EventPattern('vehicles.findOne')
   findOne(id: string): Promise<Vehicle> {
     return this.vehiclesService.findOne(id);

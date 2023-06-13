@@ -5,7 +5,6 @@ import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { StationsService } from '../stations/stations.service';
 import { CreateVehicleDto, UpdateVehicleDto } from './vehicles.dto';
 import { Vehicle } from './vehicles.entity';
-import { Station } from '../stations/stations.entity';
 
 @Injectable()
 export class VehiclesService {
@@ -18,17 +17,6 @@ export class VehiclesService {
   findAll(): Promise<Vehicle[]> {
     return this.vehiclesRepository.find({
       relations: ['station'],
-    });
-  }
-
-  async findAvailable(id: string): Promise<Vehicle[]> {
-    const station: Station = await this.stationsService.findOne(id);
-
-    return this.vehiclesRepository.find({
-      where: {
-        station,
-      },
-      relations: ['type', 'type.skins'],
     });
   }
 
