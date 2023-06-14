@@ -9,12 +9,12 @@ export class VehicleSkin {
   @Column({ type: 'varchar' })
   name: string;
 
-  @ManyToOne(() => VehicleType, (type) => type.skins)
-  type: VehicleType;
-
   @Column({ type: 'int' })
   tier: number;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   image: string;
+
+  @ManyToOne(() => VehicleType, (type) => type.skins, { nullable: false, onDelete: 'CASCADE' })
+  type: VehicleType;
 }

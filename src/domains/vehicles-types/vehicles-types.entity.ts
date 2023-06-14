@@ -11,7 +11,7 @@ export class VehicleType {
   name: string;
 
   @Column({ type: 'int' })
-  caps: number;
+  capsMilestone: number;
 
   @OneToMany(() => Vehicle, (vehicle) => vehicle.type)
   vehicles: Vehicle[];

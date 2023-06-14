@@ -17,7 +17,17 @@ export class StationsService {
   }
 
   async findOne(id: string): Promise<Station> {
-    const data = await this.stationsRepository.findOneBy({ id });
+    const data = await this.stationsRepository.findOne({
+      relations: {
+        vehicles: true,
+      },
+      where: {
+        id,
+        vehicles: {
+          active: true,
+        },
+      },
+    });
 
     if (!data) {
       throw new RpcException(new NotFoundException(`Station ${id} not found`));

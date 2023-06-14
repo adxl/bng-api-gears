@@ -14,7 +14,6 @@ export const AuthGuard = (roles: Array<UserRole | '*'>) => {
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
       const jwt: RequestToken = context.switchToHttp().getRequest();
-
       const id: string | null = await this.verifyUser(jwt.token, roles);
 
       if (!id) return false;

@@ -8,7 +8,7 @@ export class Vehicle {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => VehicleType, (type) => type.vehicles)
+  @ManyToOne(() => VehicleType, (type) => type.vehicles, { nullable: false })
   type: VehicleType;
 
   @Column({ type: 'int' })

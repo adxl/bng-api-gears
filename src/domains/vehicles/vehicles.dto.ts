@@ -5,7 +5,7 @@ import { EntityReference } from 'src/types';
 export class CreateVehicleDto {
   @ValidateNested()
   @Type(() => EntityReference)
-  // @IsNotEmptyObject()
+  @IsNotEmptyObject()
   type: EntityReference;
 
   @IsInt()

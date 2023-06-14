@@ -30,7 +30,6 @@ export class ReportsService {
   }
 
   async create(data: CreateReportDto): Promise<InsertResult> {
-    console.log(data);
     return this.reportsRepository.insert({
       ...data,
       status: ReportStatus.OPEN,
