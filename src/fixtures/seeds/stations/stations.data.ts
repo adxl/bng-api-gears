@@ -1,0 +1,86 @@
+import { DeepPartial } from 'typeorm';
+import { Station } from '../../../domains/stations/stations.entity';
+import { faker } from '@faker-js/faker';
+
+export const stations: DeepPartial<Station>[] = [
+  {
+    id: '11111111-bab3-439d-965d-0522568b0000',
+    name: faker.location.street(),
+    latitude: faker.location.latitude({ min: 48.820691, max: 48.902986, precision: 6 }),
+    longitude: faker.location.longitude({ min: 2.270037, max: 2.415789, precision: 6 }),
+    eventId: null,
+    active: true,
+  },
+  {
+    id: '11111111-bab3-439d-965d-0522568b0001',
+    name: faker.location.street(),
+    latitude: faker.location.latitude({ min: 48.820691, max: 48.902986, precision: 6 }),
+    longitude: faker.location.longitude({ min: 2.270037, max: 2.415789, precision: 6 }),
+    eventId: null,
+    active: true,
+  },
+  {
+    id: '11111111-bab3-439d-965d-0522568b0002',
+    name: faker.location.street(),
+    latitude: faker.location.latitude({ min: 48.820691, max: 48.902986, precision: 6 }),
+    longitude: faker.location.longitude({ min: 2.270037, max: 2.415789, precision: 6 }),
+    eventId: null,
+    active: true,
+  },
+  {
+    id: '11111111-bab3-439d-965d-0522568b0003',
+    name: faker.location.street(),
+    latitude: faker.location.latitude({ min: 48.820691, max: 48.902986, precision: 6 }),
+    longitude: faker.location.longitude({ min: 2.270037, max: 2.415789, precision: 6 }),
+    eventId: null,
+    active: true,
+  },
+  {
+    id: '11111111-bab3-439d-965d-0522568b0004',
+    name: faker.location.street(),
+    latitude: faker.location.latitude({ min: 48.820691, max: 48.902986, precision: 6 }),
+    longitude: faker.location.longitude({ min: 2.270037, max: 2.415789, precision: 6 }),
+    eventId: null,
+    active: true,
+  },
+  {
+    id: '11111111-bab3-439d-965d-0522568b0005',
+    name: faker.location.street(),
+    latitude: faker.location.latitude({ min: 48.820691, max: 48.902986, precision: 6 }),
+    longitude: faker.location.longitude({ min: 2.270037, max: 2.415789, precision: 6 }),
+    eventId: null,
+    active: true,
+  },
+  {
+    id: '11111111-bab3-439d-965d-0522568b0006',
+    name: faker.location.street(),
+    latitude: faker.location.latitude({ min: 48.820691, max: 48.902986, precision: 6 }),
+    longitude: faker.location.longitude({ min: 2.270037, max: 2.415789, precision: 6 }),
+    eventId: null,
+    active: true,
+  },
+  {
+    id: '11111111-bab3-439d-965d-0522568b0007',
+    name: faker.location.street(),
+    latitude: faker.location.latitude({ min: 48.820691, max: 48.902986, precision: 6 }),
+    longitude: faker.location.longitude({ min: 2.270037, max: 2.415789, precision: 6 }),
+    eventId: null,
+    active: true,
+  },
+  {
+    id: '11111111-bab3-439d-965d-0522568b0008',
+    name: faker.location.street(),
+    latitude: faker.location.latitude({ min: 48.820691, max: 48.902986, precision: 6 }),
+    longitude: faker.location.longitude({ min: 2.270037, max: 2.415789, precision: 6 }),
+    eventId: null,
+    active: true,
+  },
+  {
+    id: '11111111-bab3-439d-965d-0522568b0009',
+    name: faker.location.street(),
+    latitude: faker.location.latitude({ min: 48.820691, max: 48.902986, precision: 6 }),
+    longitude: faker.location.longitude({ min: 2.270037, max: 2.415789, precision: 6 }),
+    eventId: null,
+    active: true,
+  },
+];

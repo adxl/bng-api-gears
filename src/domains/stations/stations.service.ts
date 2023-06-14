@@ -19,7 +19,9 @@ export class StationsService {
   async findOne(id: string): Promise<Station> {
     const data = await this.stationsRepository.findOne({
       relations: {
-        vehicles: true,
+        vehicles: {
+          type: true,
+        },
       },
       where: {
         id,
