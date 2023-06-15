@@ -29,7 +29,7 @@ export class VehiclesSkinsController {
     if (Object.keys(data.body).length === 0) {
       throw new RpcException(new BadRequestException('Payload must not be empty'));
     }
-    return this.vehiclesSkinsService.update(data.id, data.body);
+    return this.vehiclesSkinsService.update(data.id, data.body, data.file);
   }
 
   @EventPattern('vehiclesSkins.remove')
