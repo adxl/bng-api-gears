@@ -27,9 +27,6 @@ export class CreateVehicleSkinDto {
   @IsOptional()
   @IsString()
   image: string;
-
-  @IsNotEmpty()
-  file: Express.Multer.File;
 }
 
 export class UpdateVehicleSkinDto {
@@ -54,7 +51,12 @@ export class UpdateVehicleSkinDtoWrapper {
   @ValidateNested()
   @Type(() => UpdateVehicleSkinDto)
   body: UpdateVehicleSkinDto;
+}
 
-  @IsOptional()
+export class UploadFileDto {
+  @IsUUID(4)
+  id: string;
+
+  @IsNotEmpty()
   file: Express.Multer.File;
 }

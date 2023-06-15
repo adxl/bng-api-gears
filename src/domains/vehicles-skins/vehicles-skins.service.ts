@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
@@ -32,36 +32,29 @@ export class VehiclesSkinsService {
   }
 
   async create(data: CreateVehicleSkinDto): Promise<InsertResult> {
-    const uuid: string = crypto.randomUUID() + data.file.filename;
-
-    await this.imageryHelper.upload(uuid, data.file.buffer);
-
-    data.image = uuid;
-
     return this.vehiclesSkinsRepository.insert(data);
   }
 
-  async update(id: string, data: UpdateVehicleSkinDto, file: Express.Multer.File): Promise<UpdateResult> {
+  async update(id: string, data: UpdateVehicleSkinDto): Promise<UpdateResult> {
     await this.findOne(id);
 
-    if (file) {
-      if (!file.mimetype.match(/(^image)(\/)(jpe?g|png)/gm))
-        throw new RpcException(new BadRequestException('You must provide a png, jpeg, or jpg image'));
-
-      const uuid: string = crypto.randomUUID() + (file.filename ? file.filename : file.originalname);
-
-      await this.imageryHelper.upload(uuid, file.buffer);
-
-      data.image = process.env.BUCKET_URL + uuid;
-    }
-
     return this.vehiclesSkinsRepository.update(id, data);
+  }
+
+  async uploadFile(id: string, file: Express.Multer.File): Promise<UpdateResult> {
+    await this.findOne(id);
+
+    const uuid: string = crypto.randomUUID() + (file.filename ? file.filename : file.originalname);
+
+    await this.imageryHelper.upload(uuid, file.buffer);
+
+    return this.vehiclesSkinsRepository.update(id, { image: process.env.BUCKET_URL + uuid });
   }
 
   async remove(id: string): Promise<DeleteResult> {
     const skin: VehicleSkin = await this.findOne(id);
 
-    await this.imageryHelper.remove(skin.image.substring(skin.image.lastIndexOf('/')));
+    await this.imageryHelper.remove(skin.image.substring(skin.image.lastIndexOf('/') + 1));
 
     return this.vehiclesSkinsRepository.delete(id);
   }

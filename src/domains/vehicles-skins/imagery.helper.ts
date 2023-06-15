@@ -9,7 +9,7 @@ export class ImageryHelper {
     await s3
       .upload({
         Bucket: process.env.BUCKET_NAME,
-        Key: `${uuid}.png`,
+        Key: uuid,
         Body: Buffer.from(fileBuffer),
       })
       .promise();
@@ -18,6 +18,6 @@ export class ImageryHelper {
   public async remove(key: string): Promise<void> {
     const s3: S3 = new S3();
 
-    await s3.deleteObject({ Bucket: process.env.BUCKET_NAME, Key: key });
+    await s3.deleteObject({ Bucket: process.env.BUCKET_NAME, Key: key }).promise();
   }
 }
