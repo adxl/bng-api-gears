@@ -7,6 +7,11 @@ services:
       STAGE: production
       DATABASE_URL: '@DATABASE_URL@'
       SENTRY_DSN: '@SENTRY_DSN@'
+      BUCKET_URL: '@BUCKET_URL@'
+      BUCKET_NAME: '@BUCKET_NAME@'
+      AWS_S3_ACCESS_KEY: '@AWS_S3_ACCESS_KEY@'
+      AWS_S3_SECRET_KEY: '@AWS_S3_SECRET_KEY@'
+      AWS_S3_REGION: '@AWS_S3_REGION@'
     networks:
       - bng
     deploy:
