@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Report } from '../reports/reports.entity';
 import { Station } from '../stations/stations.entity';
+import { VehicleSkin } from '../vehicles-skins/vehicles-skins.entity';
 import { Vehicle } from '../vehicles/vehicles.entity';
 
 @Entity()
@@ -10,6 +11,9 @@ export class Ride {
 
   @ManyToOne(() => Vehicle, (vehicle) => vehicle.rides)
   vehicle: Vehicle;
+
+  @ManyToOne(() => VehicleSkin)
+  skin: VehicleSkin;
 
   @ManyToOne(() => Station)
   startStation: Station;

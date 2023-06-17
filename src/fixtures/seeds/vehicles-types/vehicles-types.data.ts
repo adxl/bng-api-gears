@@ -14,7 +14,7 @@ export const vehiclesTypes: DeepPartial<VehicleType>[] = [
   },
   {
     id: '33333333-bab3-439d-965d-0522568b0002',
-    name: 'Capsule pneumatique',
+    name: 'Jetpack à fusion',
     capsMilestone: 100,
   },
   {

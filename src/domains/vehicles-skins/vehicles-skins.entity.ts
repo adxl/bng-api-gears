@@ -1,5 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { VehicleType } from '../vehicles-types/vehicles-types.entity';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class VehicleSkin {
@@ -13,8 +12,5 @@ export class VehicleSkin {
   tier: number;
 
   @Column({ type: 'varchar', nullable: true })
-  image: string;
-
-  @ManyToOne(() => VehicleType, (type) => type.skins, { nullable: false, onDelete: 'CASCADE' })
-  type: VehicleType;
+  imageId: string;
 }

@@ -1,5 +1,4 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { VehicleSkin } from '../vehicles-skins/vehicles-skins.entity';
 import { Vehicle } from '../vehicles/vehicles.entity';
 
 @Entity()
@@ -15,7 +14,4 @@ export class VehicleType {
 
   @OneToMany(() => Vehicle, (vehicle) => vehicle.type)
   vehicles: Vehicle[];
-
-  @OneToMany(() => VehicleSkin, (skin) => skin.type)
-  skins: VehicleSkin[];
 }

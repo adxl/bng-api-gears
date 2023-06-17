@@ -5,12 +5,12 @@ import { AUTH_SERVICE } from './constants';
 import { UserRole } from './types/user-role';
 import { catchError, of } from 'rxjs';
 
-export const AuthGuard = (roles: Array<UserRole | '*'>) => {
+export const AuthGuard = (roles: Array<UserRole | '*'>): any => {
   @Injectable()
   class _AuthGuard implements CanActivate {
     constructor(@Inject(AUTH_SERVICE) public readonly authProxy: ClientProxy) {}
 
-    public readonly logger = new Logger(AuthGuard.name);
+    public readonly logger = new Logger(_AuthGuard.name);
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
       const jwt: RequestToken = context.switchToHttp().getRequest();
