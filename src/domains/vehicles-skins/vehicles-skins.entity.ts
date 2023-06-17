@@ -12,5 +12,5 @@ export class VehicleSkin {
   tier: number;
 
   @Column({ type: 'varchar', nullable: true })
-  imageId: string;
+  image: string;
 }
