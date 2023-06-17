@@ -6,6 +6,7 @@ import { AppModule } from './app.module';
 import * as Sentry from '@sentry/node';
 import { SentryHttpFilter, SentryRpcFilter } from './filters/sentry.filter';
 import { CustomValidationPipe } from './pipes/validation.pipe';
+import { config } from 'aws-sdk';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice(AppModule, {
@@ -25,6 +26,12 @@ async function bootstrap() {
 
   app.useGlobalFilters(new SentryRpcFilter());
   app.useGlobalFilters(new SentryHttpFilter());
+
+  config.update({
+    accessKeyId: process.env.AWS_S3_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_S3_SECRET_KEY,
+    region: process.env.AWS_S3_REGION,
+  });
 
   await app.listen();
 }

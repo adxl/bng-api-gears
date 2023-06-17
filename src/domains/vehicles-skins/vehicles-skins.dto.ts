@@ -1,5 +1,14 @@
 import { Type } from 'class-transformer';
-import { IsInt, IsNotEmptyObject, IsOptional, IsString, IsUUID, Min, ValidateNested } from 'class-validator';
+import {
+  IsInt,
+  IsNotEmpty,
+  IsNotEmptyObject,
+  IsOptional,
+  IsString,
+  IsUUID,
+  Min,
+  ValidateNested,
+} from 'class-validator';
 import { EntityReference } from 'src/types';
 
 export class CreateVehicleSkinDto {
@@ -42,4 +51,12 @@ export class UpdateVehicleSkinDtoWrapper {
   @ValidateNested()
   @Type(() => UpdateVehicleSkinDto)
   body: UpdateVehicleSkinDto;
+}
+
+export class UploadFileDto {
+  @IsUUID(4)
+  id: string;
+
+  @IsNotEmpty()
+  file: Express.Multer.File;
 }
