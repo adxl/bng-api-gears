@@ -16,11 +16,13 @@ const vehiclesStations = [
 ];
 
 const vehicleTypes = [
-  ...Array(40).fill(0),
-  ...Array(30).fill(1),
-  ...Array(20).fill(2),
-  ...Array(10).fill(3), //
-];
+  '0211231300023011001211200',
+  '0012010202000102230310100',
+  '1211010311002100000122332',
+  '1021210100012012213110003',
+]
+  .reduce((a, segment) => a + segment, '')
+  .split('');
 
 export const vehicles: DeepPartial<Vehicle>[] = vehiclesStations.map((stationIndex, i) => ({
   id: `22222222-bab3-439d-965d-0522568b0${String(i).padStart(3, '0')}`,

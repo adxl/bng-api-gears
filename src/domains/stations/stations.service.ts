@@ -12,8 +12,14 @@ export class StationsService {
     private readonly stationsRepository: Repository<Station>,
   ) {}
 
-  findAll(): Promise<Station[]> {
-    return this.stationsRepository.find();
+  async findAll(): Promise<Station[]> {
+    return await this.stationsRepository.find({
+      relations: {
+        vehicles: {
+          type: true,
+        },
+      },
+    });
   }
 
   async findOne(id: string): Promise<Station> {
@@ -23,12 +29,7 @@ export class StationsService {
           type: true,
         },
       },
-      where: {
-        id,
-        vehicles: {
-          active: true,
-        },
-      },
+      where: { id },
     });
 
     if (!data) {

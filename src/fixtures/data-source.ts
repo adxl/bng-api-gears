@@ -11,6 +11,12 @@ import { Report } from '../domains/reports/reports.entity';
 const options: DataSourceOptions & SeederOptions = {
   type: 'postgres',
   url: process.env.DATABASE_URL,
+  // ssl: false,
+  // extra: {
+  //   ssl: {
+  //     rejectUnauthorized: false,
+  //   },
+  // },
   entities: [Station, Vehicle, Ride, Report, VehicleType, VehicleSkin],
   seeds: [MainSeeder],
 };
