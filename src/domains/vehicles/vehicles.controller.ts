@@ -4,7 +4,7 @@ import { CreateVehicleDto, UpdateVehicleDtoWrapper } from './vehicles.dto';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 import { VehiclesService } from './vehicles.service';
 import { Vehicle } from './vehicles.entity';
-import { AuthGuard } from 'src/gears.guard';
+import { AuthGuard } from '../../gears.guard';
 
 @Controller()
 export class VehiclesController {

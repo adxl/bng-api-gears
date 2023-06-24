@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsBoolean, IsInt, IsNotEmptyObject, IsOptional, IsUUID, Max, Min, ValidateNested } from 'class-validator';
-import { EntityReference } from 'src/types';
+import { EntityReference } from '../../types';
 
 export class CreateVehicleDto {
   @ValidateNested()

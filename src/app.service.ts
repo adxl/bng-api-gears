@@ -4,7 +4,7 @@ import { RpcException } from '@nestjs/microservices';
 @Injectable()
 export class AppService {
   index(): string {
-    return 'Gears API';
+    return 'Welcome to Gears API';
   }
 
   kill(): void {

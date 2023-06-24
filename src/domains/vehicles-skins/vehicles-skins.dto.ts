@@ -9,7 +9,7 @@ import {
   Min,
   ValidateNested,
 } from 'class-validator';
-import { EntityReference } from 'src/types';
+import { EntityReference } from '../../types';
 
 export class CreateVehicleSkinDto {
   @IsString()

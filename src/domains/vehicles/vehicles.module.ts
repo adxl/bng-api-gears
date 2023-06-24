@@ -4,8 +4,8 @@ import { StationsModule } from '../stations/stations.module';
 import { VehiclesController } from './vehicles.controller';
 import { Vehicle } from './vehicles.entity';
 import { VehiclesService } from './vehicles.service';
-import { ClientProxy } from 'src/config/proxy.config';
-import { AUTH_SERVICE } from 'src/constants';
+import { ClientProxy } from '../../config/proxy.config';
+import { AUTH_SERVICE } from '../../constants';
 
 @Module({
   imports: [

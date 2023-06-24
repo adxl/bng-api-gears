@@ -6,7 +6,7 @@ export const rides: DeepPartial<Ride>[] = [
   // USER 1
   {
     id: '55555555-b4c5-4aad-887b-ff93aa1a6e00',
-    userId: 'c63a4bd1-cabd-44ee-b911-9ee2533dd014',
+    userId: 'c63a4bd1-cabd-44ee-b911-9ee2533dd003',
     //
     vehicle: { id: '22222222-bab3-439d-965d-0522568b0050' },
     skin: { id: '44444444-bab3-439d-965d-0522568b0003' },
@@ -22,7 +22,7 @@ export const rides: DeepPartial<Ride>[] = [
   },
   {
     id: '55555555-b4c5-4aad-887b-ff93aa1a6e01',
-    userId: 'c63a4bd1-cabd-44ee-b911-9ee2533dd014',
+    userId: 'c63a4bd1-cabd-44ee-b911-9ee2533dd003',
     //
     vehicle: { id: '22222222-bab3-439d-965d-0522568b0014' },
     skin: { id: '44444444-bab3-439d-965d-0522568b0004' },
@@ -38,7 +38,7 @@ export const rides: DeepPartial<Ride>[] = [
   },
   {
     id: '55555555-b4c5-4aad-887b-ff93aa1a6e02',
-    userId: 'c63a4bd1-cabd-44ee-b911-9ee2533dd014',
+    userId: 'c63a4bd1-cabd-44ee-b911-9ee2533dd003',
     //
     vehicle: { id: '22222222-bab3-439d-965d-0522568b0088' },
     skin: { id: '44444444-bab3-439d-965d-0522568b0005' },
@@ -54,7 +54,7 @@ export const rides: DeepPartial<Ride>[] = [
   },
   {
     id: '55555555-b4c5-4aad-887b-ff93aa1a6e03',
-    userId: 'c63a4bd1-cabd-44ee-b911-9ee2533dd014',
+    userId: 'c63a4bd1-cabd-44ee-b911-9ee2533dd003',
     //
     vehicle: { id: '22222222-bab3-439d-965d-0522568b0069' },
     skin: { id: '44444444-bab3-439d-965d-0522568b0003' },
@@ -73,7 +73,7 @@ export const rides: DeepPartial<Ride>[] = [
 
   {
     id: '55555555-b4c5-4aad-887b-ff93aa1a6e04',
-    userId: 'c63a4bd1-cabd-44ee-b911-9ee2533dd022',
+    userId: 'c63a4bd1-cabd-44ee-b911-9ee2533dd010',
     //
     vehicle: { id: '22222222-bab3-439d-965d-0522568b0023' },
     skin: { id: '44444444-bab3-439d-965d-0522568b0006' },
@@ -89,7 +89,7 @@ export const rides: DeepPartial<Ride>[] = [
   },
   {
     id: '55555555-b4c5-4aad-887b-ff93aa1a6e05',
-    userId: 'c63a4bd1-cabd-44ee-b911-9ee2533dd022',
+    userId: 'c63a4bd1-cabd-44ee-b911-9ee2533dd010',
     //
     vehicle: { id: '22222222-bab3-439d-965d-0522568b0088' },
     skin: { id: '44444444-bab3-439d-965d-0522568b0003' },
@@ -105,7 +105,7 @@ export const rides: DeepPartial<Ride>[] = [
   },
   {
     id: '55555555-b4c5-4aad-887b-ff93aa1a6e06',
-    userId: 'c63a4bd1-cabd-44ee-b911-9ee2533dd022',
+    userId: 'c63a4bd1-cabd-44ee-b911-9ee2533dd010',
     //
     vehicle: { id: '22222222-bab3-439d-965d-0522568b0069' },
     skin: { id: '44444444-bab3-439d-965d-0522568b0002' },
@@ -124,7 +124,7 @@ export const rides: DeepPartial<Ride>[] = [
 
   {
     id: '55555555-b4c5-4aad-887b-ff93aa1a6e07',
-    userId: 'c63a4bd1-cabd-44ee-b911-9ee2533dd024',
+    userId: 'c63a4bd1-cabd-44ee-b911-9ee2533dd005',
     //
     vehicle: { id: '22222222-bab3-439d-965d-0522568b0064' },
     skin: { id: '44444444-bab3-439d-965d-0522568b0004' },
@@ -143,7 +143,7 @@ export const rides: DeepPartial<Ride>[] = [
 
   {
     id: '55555555-b4c5-4aad-887b-ff93aa1a6e08',
-    userId: 'c63a4bd1-cabd-44ee-b911-9ee2533dd017',
+    userId: 'c63a4bd1-cabd-44ee-b911-9ee2533dd006',
     //
     vehicle: { id: '22222222-bab3-439d-965d-0522568b0048' },
     skin: { id: '44444444-bab3-439d-965d-0522568b0003' },
@@ -162,7 +162,7 @@ export const rides: DeepPartial<Ride>[] = [
 
   {
     id: '55555555-b4c5-4aad-887b-ff93aa1a6e09',
-    userId: 'c63a4bd1-cabd-44ee-b911-9ee2533dd014',
+    userId: 'c63a4bd1-cabd-44ee-b911-9ee2533dd002',
     //
     vehicle: { id: '22222222-bab3-439d-965d-0522568b0034' },
     skin: { id: '44444444-bab3-439d-965d-0522568b0007' },

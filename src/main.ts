@@ -8,7 +8,7 @@ import { SentryHttpFilter, SentryRpcFilter } from './filters/sentry.filter';
 import { CustomValidationPipe } from './pipes/validation.pipe';
 import { config } from 'aws-sdk';
 
-async function bootstrap() {
+export async function bootstrap() {
   const app = await NestFactory.createMicroservice(AppModule, {
     transport: Transport.TCP,
     options: {
@@ -34,6 +34,10 @@ async function bootstrap() {
   });
 
   await app.listen();
+
+  return app;
 }
 
-bootstrap();
+if (process.env.STAGE !== 'test') {
+  bootstrap();
+}

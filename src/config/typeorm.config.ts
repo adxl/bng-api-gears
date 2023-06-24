@@ -1,12 +1,12 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { Report } from 'src/domains/reports/reports.entity';
-import { Ride } from 'src/domains/rides/rides.entity';
-import { Station } from 'src/domains/stations/stations.entity';
-import { VehicleSkin } from 'src/domains/vehicles-skins/vehicles-skins.entity';
-import { VehicleType } from 'src/domains/vehicles-types/vehicles-types.entity';
-import { Vehicle } from 'src/domains/vehicles/vehicles.entity';
+import { Report } from '../domains/reports/reports.entity';
+import { Ride } from '../domains/rides/rides.entity';
+import { Station } from '../domains/stations/stations.entity';
+import { VehicleSkin } from '../domains/vehicles-skins/vehicles-skins.entity';
+import { VehicleType } from '../domains/vehicles-types/vehicles-types.entity';
+import { Vehicle } from '../domains/vehicles/vehicles.entity';
 
-const IS_LOCAL: boolean = process.env.STAGE === 'local';
+const IS_LOCAL: boolean = process.env.STAGE === 'local' || process.env.STAGE === 'test';
 
 export const TypeOrmConfig: TypeOrmModuleOptions = {
   type: 'postgres',

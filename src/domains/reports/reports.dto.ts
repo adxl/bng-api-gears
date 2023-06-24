@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsEnum, IsNotEmptyObject, IsUUID, ValidateNested } from 'class-validator';
-import { EntityReference } from 'src/types';
+import { EntityReference } from '../../types';
 import { Ride } from '../rides/rides.entity';
 import { ReportStatus } from './reports.entity';
 
