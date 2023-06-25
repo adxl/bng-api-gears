@@ -13,12 +13,12 @@ export class CreateVehicleTypeDto {
 export class UpdateVehicleTypeDto {
   @IsOptional()
   @IsString()
-  name: string;
+  name?: string;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  capsMilestone: number;
+  capsMilestone?: number;
 }
 
 export class UpdateVehicleTypeDtoWrapper {

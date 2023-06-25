@@ -19,7 +19,7 @@ export class VehiclesTypesService {
   async findOne(id: string): Promise<VehicleType> {
     const data = await this.vehiclesTypesRepository.findOne({
       where: { id },
-      relations: ['vehicles', 'skins'],
+      relations: ['vehicles'],
     });
 
     if (!data) {

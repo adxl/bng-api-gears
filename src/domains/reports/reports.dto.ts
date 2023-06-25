@@ -1,14 +1,13 @@
 import { Type } from 'class-transformer';
 import { IsEnum, IsNotEmptyObject, IsUUID, ValidateNested } from 'class-validator';
 import { EntityReference } from '../../types';
-import { Ride } from '../rides/rides.entity';
 import { ReportStatus } from './reports.entity';
 
 export class CreateReportDto {
   @ValidateNested()
   @Type(() => EntityReference)
   @IsNotEmptyObject()
-  ride: Ride;
+  ride: EntityReference;
 }
 
 export class UpdateReportDto {

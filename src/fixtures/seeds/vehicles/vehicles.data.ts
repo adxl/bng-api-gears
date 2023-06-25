@@ -29,5 +29,5 @@ export const vehicles: DeepPartial<Vehicle>[] = vehiclesStations.map((stationInd
   type: { id: `33333333-bab3-439d-965d-0522568b000${vehicleTypes[i]}` },
   station: { id: `11111111-bab3-439d-965d-0522568b000${stationIndex}` },
   year: faker.number.int({ min: 2000, max: 3000 }),
-  active: [2, 12, 15, 20, 60].includes(i),
+  active: ![2, 12, 15, 20, 60].includes(i),
 }));

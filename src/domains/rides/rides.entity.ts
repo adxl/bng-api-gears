@@ -9,16 +9,16 @@ export class Ride {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Vehicle, (vehicle) => vehicle.rides)
+  @ManyToOne(() => Vehicle, (vehicle) => vehicle.rides, { onDelete: 'CASCADE' })
   vehicle: Vehicle;
 
-  @ManyToOne(() => VehicleSkin)
+  @ManyToOne(() => VehicleSkin, { onDelete: 'CASCADE' })
   skin: VehicleSkin;
 
-  @ManyToOne(() => Station)
+  @ManyToOne(() => Station, { onDelete: 'CASCADE' })
   startStation: Station;
 
-  @ManyToOne(() => Station, { nullable: true })
+  @ManyToOne(() => Station, { nullable: true, onDelete: 'CASCADE' })
   endStation: Station | null;
 
   @OneToOne(() => Report, (report) => report.ride)

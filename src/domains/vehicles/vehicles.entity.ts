@@ -8,13 +8,13 @@ export class Vehicle {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => VehicleType, (type) => type.vehicles, { nullable: false })
+  @ManyToOne(() => VehicleType, (type) => type.vehicles, { nullable: false, onDelete: 'CASCADE' })
   type: VehicleType;
 
   @Column({ type: 'int' })
   year: number;
 
-  @ManyToOne(() => Station, (station) => station.vehicles, { nullable: true })
+  @ManyToOne(() => Station, (station) => station.vehicles, { nullable: true, onDelete: 'CASCADE' })
   station: Station;
 
   @OneToMany(() => Ride, (ride) => ride.vehicle)

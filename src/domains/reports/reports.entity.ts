@@ -12,7 +12,7 @@ export class Report {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToOne(() => Ride, (ride) => ride.report, { nullable: false })
+  @OneToOne(() => Ride, (ride) => ride.report, { nullable: false, onDelete: 'CASCADE' })
   @JoinColumn()
   ride: Ride;
 

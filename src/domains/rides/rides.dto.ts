@@ -8,6 +8,11 @@ export class CreateRideDto {
   @IsNotEmptyObject()
   vehicle: EntityReference;
 
+  @ValidateNested()
+  @Type(() => EntityReference)
+  @IsNotEmptyObject()
+  skin: EntityReference;
+
   @IsUUID(4)
   userId: string;
 }

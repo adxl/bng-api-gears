@@ -6,6 +6,7 @@ import { Vehicle } from './vehicles.entity';
 import { VehiclesService } from './vehicles.service';
 import { ClientProxy } from '../../config/proxy.config';
 import { AUTH_SERVICE } from '../../constants';
+import { AuthGuard } from '../../gears.guard';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { AUTH_SERVICE } from '../../constants';
     StationsModule,
   ],
   controllers: [VehiclesController],
-  providers: [VehiclesService],
-  exports: [VehiclesService],
+  providers: [VehiclesService, AuthGuard, AUTH_SERVICE],
+  exports: [VehiclesService, AuthGuard, AUTH_SERVICE],
 })
 export class VehiclesModule {}

@@ -1,15 +1,5 @@
 import { Type } from 'class-transformer';
-import {
-  IsInt,
-  IsNotEmpty,
-  IsNotEmptyObject,
-  IsOptional,
-  IsString,
-  IsUUID,
-  Min,
-  ValidateNested,
-} from 'class-validator';
-import { EntityReference } from '../../types';
+import { IsInt, IsNotEmpty, IsOptional, IsString, IsUUID, Min, ValidateNested } from 'class-validator';
 
 export class CreateVehicleSkinDto {
   @IsString()
@@ -19,11 +9,6 @@ export class CreateVehicleSkinDto {
   @Min(0)
   tier: number;
 
-  @ValidateNested()
-  @Type(() => EntityReference)
-  @IsNotEmptyObject()
-  type: EntityReference;
-
   @IsOptional()
   @IsString()
   image: string;
@@ -32,16 +17,16 @@ export class CreateVehicleSkinDto {
 export class UpdateVehicleSkinDto {
   @IsOptional()
   @IsString()
-  name: string;
+  name?: string;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  tier: number;
+  tier?: number;
 
   @IsOptional()
   @IsString()
-  image: string;
+  image?: string;
 }
 
 export class UpdateVehicleSkinDtoWrapper {

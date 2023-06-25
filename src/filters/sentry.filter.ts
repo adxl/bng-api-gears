@@ -12,7 +12,7 @@ export class SentryRpcFilter implements ExceptionFilter {
       Sentry.captureException(exception);
     }
 
-    this.logger.error(exception.getError().toString());
+    this.logger.error(exception.getError());
   }
 }
 
