@@ -33,7 +33,7 @@ export class RidesController {
   @EventPattern('rides.self.findCurrent')
   @UseGuards(new RolesGuard([UserRole.USER]), AuthGuard)
   findOneSelf(@Req() request: RequestToken): Promise<Ride> {
-    return this.ridesService.findOne(request.userId);
+    return this.ridesService.findOneByUser(request.userId);
   }
 
   @EventPattern('rides.create')

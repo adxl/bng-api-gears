@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
-import { InsertResult, Repository, UpdateResult } from 'typeorm';
+import { InsertResult, IsNull, Repository, UpdateResult } from 'typeorm';
 import { VehiclesService } from '../vehicles/vehicles.service';
 import { CreateRideDto, UpdateRideInformationDto, UpdateRideReviewDto } from './rides.dto';
 import { Ride } from './rides.entity';
@@ -43,7 +43,7 @@ export class RidesService {
 
   async findOneByUser(userId: string): Promise<Ride> {
     const data = await this.ridesRepository.findOne({
-      where: { id: userId },
+      where: { userId, endStation: IsNull() },
       relations: {
         vehicle: { type: true },
         startStation: true,
