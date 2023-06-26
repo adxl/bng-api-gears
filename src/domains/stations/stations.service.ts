@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, In, InsertResult, Repository, UpdateResult } from 'typeorm';
 import { CreateStationDto, UpdateStationDto } from './stations.dto';
 import { Station } from './stations.entity';
 
@@ -37,6 +37,14 @@ export class StationsService {
     }
 
     return data;
+  }
+
+  async findMany(ids: string[]): Promise<Station[]> {
+    return await this.stationsRepository.find({
+      where: {
+        id: In(ids),
+      },
+    });
   }
 
   async create(data: CreateStationDto): Promise<InsertResult> {

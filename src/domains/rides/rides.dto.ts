@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsInt, IsNotEmptyObject, IsOptional, IsString, IsUUID, Max, Min, ValidateNested } from 'class-validator';
-import { EntityReference } from '../../types';
+import { EntityReference, RequestPayload } from '../../types';
 
 export class CreateRideDto {
   @ValidateNested()
@@ -17,6 +17,13 @@ export class CreateRideDto {
   userId: string;
 }
 
+export class CreateRidePayload extends RequestPayload {
+  @IsNotEmptyObject()
+  @ValidateNested()
+  @Type(() => CreateRideDto)
+  body: CreateRideDto;
+}
+
 // ---
 
 export class UpdateRideInformationDto {
@@ -26,10 +33,8 @@ export class UpdateRideInformationDto {
   endStation: EntityReference;
 }
 
-export class UpdateRideInformationDtoWrapper {
-  @IsUUID(4)
-  id: string;
-
+export class UpdateRideInformationPayload extends RequestPayload {
+  @IsNotEmptyObject()
   @ValidateNested()
   @Type(() => UpdateRideInformationDto)
   body: UpdateRideInformationDto;
@@ -48,10 +53,8 @@ export class UpdateRideReviewDto {
   comment?: string;
 }
 
-export class UpdateRideReviewDtoWrapper {
-  @IsUUID(4)
-  id: string;
-
+export class UpdateRideReviewPayload extends RequestPayload {
+  @IsNotEmptyObject()
   @ValidateNested()
   @Type(() => UpdateRideReviewDto)
   body: UpdateRideReviewDto;

@@ -1,5 +1,6 @@
 import { Type } from 'class-transformer';
-import { IsInt, IsOptional, IsString, IsUUID, Min, ValidateNested } from 'class-validator';
+import { IsInt, IsNotEmptyObject, IsOptional, IsString, Min, ValidateNested } from 'class-validator';
+import { RequestPayload } from 'src/types';
 
 export class CreateVehicleTypeDto {
   @IsString()
@@ -9,6 +10,15 @@ export class CreateVehicleTypeDto {
   @Min(0)
   capsMilestone: number;
 }
+
+export class CreateVehicleTypePayload extends RequestPayload {
+  @IsNotEmptyObject()
+  @ValidateNested()
+  @Type(() => CreateVehicleTypePayload)
+  body: CreateVehicleTypeDto;
+}
+
+// ---
 
 export class UpdateVehicleTypeDto {
   @IsOptional()
@@ -21,10 +31,8 @@ export class UpdateVehicleTypeDto {
   capsMilestone?: number;
 }
 
-export class UpdateVehicleTypeDtoWrapper {
-  @IsUUID(4)
-  id: string;
-
+export class UpdateVehicleTypePayload extends RequestPayload {
+  @IsNotEmptyObject()
   @ValidateNested()
   @Type(() => UpdateVehicleTypeDto)
   body: UpdateVehicleTypeDto;

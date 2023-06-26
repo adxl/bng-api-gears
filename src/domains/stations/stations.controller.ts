@@ -1,11 +1,12 @@
-import { BadRequestException, Controller, UseGuards } from '@nestjs/common';
-import { EventPattern, RpcException } from '@nestjs/microservices';
-import { CreateStationDto, UpdateStationDtoWrapper } from './stations.dto';
+import { Controller, UseGuards } from '@nestjs/common';
+import { EventPattern, Payload } from '@nestjs/microservices';
+import { CreateStationPayload, UpdateStationPayload } from './stations.dto';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 import { StationsService } from './stations.service';
 import { Station } from './stations.entity';
-import { AuthGuard, RolesGuard } from '../../gears.guard';
+import { AuthGuard, RolesGuard } from '../../auth.guard';
 import { UserRole } from '../../types/user-role';
+import { RequestPayload } from '../../types';
 
 @Controller()
 export class StationsController {
@@ -19,28 +20,31 @@ export class StationsController {
 
   @EventPattern('stations.findOne')
   @UseGuards(new RolesGuard('*'), AuthGuard)
-  findOne(id: string): Promise<Station> {
-    return this.stationsService.findOne(id);
+  findOne(@Payload() payload: RequestPayload): Promise<Station> {
+    return this.stationsService.findOne(payload.id);
+  }
+
+  @EventPattern('stations.findMany')
+  @UseGuards(new RolesGuard('*'), AuthGuard)
+  findMany(@Payload() payload: RequestPayload): Promise<Station[]> {
+    return this.stationsService.findMany(payload.ids);
   }
 
   @EventPattern('stations.create')
   @UseGuards(new RolesGuard([UserRole.TECHNICIAN]), AuthGuard)
-  create(data: CreateStationDto): Promise<InsertResult> {
-    return this.stationsService.create(data);
+  create(@Payload() payload: CreateStationPayload): Promise<InsertResult> {
+    return this.stationsService.create(payload.body);
   }
 
   @EventPattern('stations.update')
   @UseGuards(new RolesGuard([UserRole.TECHNICIAN]), AuthGuard)
-  update(data: UpdateStationDtoWrapper): Promise<UpdateResult> {
-    if (Object.keys(data.body).length === 0) {
-      throw new RpcException(new BadRequestException('Payload must not be empty'));
-    }
-    return this.stationsService.update(data.id, data.body);
+  update(@Payload() payload: UpdateStationPayload): Promise<UpdateResult> {
+    return this.stationsService.update(payload.id, payload.body);
   }
 
   @EventPattern('stations.remove')
   @UseGuards(new RolesGuard([UserRole.TECHNICIAN]), AuthGuard)
-  remove(id: string): Promise<DeleteResult> {
-    return this.stationsService.remove(id);
+  remove(@Payload() payload: RequestPayload): Promise<DeleteResult> {
+    return this.stationsService.remove(payload.id);
   }
 }

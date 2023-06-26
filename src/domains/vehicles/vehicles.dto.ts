@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
-import { IsBoolean, IsInt, IsNotEmptyObject, IsOptional, IsUUID, Max, Min, ValidateNested } from 'class-validator';
-import { EntityReference } from '../../types';
+import { IsBoolean, IsInt, IsNotEmptyObject, IsOptional, Max, Min, ValidateNested } from 'class-validator';
+import { EntityReference, RequestPayload } from '../../types';
 
 export class CreateVehicleDto {
   @ValidateNested()
@@ -18,6 +18,15 @@ export class CreateVehicleDto {
   @IsNotEmptyObject()
   station: EntityReference;
 }
+
+export class CreateVehiclePayload extends RequestPayload {
+  @IsNotEmptyObject()
+  @ValidateNested()
+  @Type(() => CreateVehicleDto)
+  body: CreateVehicleDto;
+}
+
+// ---
 
 export class UpdateVehicleDto {
   @IsOptional()
@@ -41,10 +50,8 @@ export class UpdateVehicleDto {
   active?: boolean;
 }
 
-export class UpdateVehicleDtoWrapper {
-  @IsUUID(4)
-  id: string;
-
+export class UpdateVehiclePayload extends RequestPayload {
+  @IsNotEmptyObject()
   @ValidateNested()
   @Type(() => UpdateVehicleDto)
   body: UpdateVehicleDto;

@@ -1,13 +1,8 @@
 import { CanActivate, ExecutionContext, Inject, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
-import { AUTH_SERVICE } from './constants';
 import { UserRole } from './types/user-role';
 import { catchError, firstValueFrom, of } from 'rxjs';
-
-type JWTRequest = {
-  token: string;
-  roles?: UserRole[] | '*';
-};
+import { RequestPayload } from './types';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -16,7 +11,7 @@ export class RolesGuard implements CanActivate {
   constructor(readonly roles: UserRole[] | '*') {}
 
   canActivate(context: ExecutionContext): boolean {
-    const request: JWTRequest = context.switchToHttp().getRequest();
+    const request: RequestPayload = context.switchToRpc().getData();
 
     if (!request.token) {
       throw new RpcException(new UnauthorizedException());
@@ -30,19 +25,20 @@ export class RolesGuard implements CanActivate {
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(@Inject(AUTH_SERVICE) public readonly authProxy: ClientProxy) {}
+  constructor(@Inject('AUTH_SERVICE') public readonly authProxy: ClientProxy) {}
 
   public readonly logger = new Logger(AuthGuard.name);
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request: JWTRequest = context.switchToHttp().getRequest();
+    const request: RequestPayload = context.switchToRpc().getData();
 
-    const payload = { jwt: { token: request.token }, roles: request.roles };
+    const payload = { token: request.token, roles: request.roles };
 
     const observableResponse = this.authProxy.send('auth.verify', payload).pipe(catchError((error) => of(error)));
     const promiseResponse = await firstValueFrom(observableResponse);
 
     if (typeof promiseResponse === 'string') {
+      request.userId = promiseResponse;
       return true;
     }
 

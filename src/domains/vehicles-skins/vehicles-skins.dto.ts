@@ -1,5 +1,6 @@
 import { Type } from 'class-transformer';
-import { IsInt, IsNotEmpty, IsOptional, IsString, IsUUID, Min, ValidateNested } from 'class-validator';
+import { IsInt, IsNotEmpty, IsNotEmptyObject, IsOptional, IsString, Min, ValidateNested } from 'class-validator';
+import { RequestPayload } from 'src/types';
 
 export class CreateVehicleSkinDto {
   @IsString()
@@ -13,6 +14,15 @@ export class CreateVehicleSkinDto {
   @IsString()
   image: string;
 }
+
+export class CreateVehicleSkinPayload extends RequestPayload {
+  @IsNotEmptyObject()
+  @ValidateNested()
+  @Type(() => CreateVehicleSkinDto)
+  body: CreateVehicleSkinDto;
+}
+
+// ---
 
 export class UpdateVehicleSkinDto {
   @IsOptional()
@@ -29,19 +39,16 @@ export class UpdateVehicleSkinDto {
   image?: string;
 }
 
-export class UpdateVehicleSkinDtoWrapper {
-  @IsUUID(4)
-  id: string;
-
+export class UpdateVehicleSkinPayload extends RequestPayload {
+  @IsNotEmptyObject()
   @ValidateNested()
   @Type(() => UpdateVehicleSkinDto)
   body: UpdateVehicleSkinDto;
 }
 
-export class UploadFileDto {
-  @IsUUID(4)
-  id: string;
+//---
 
+export class UpdateVehicleSkinImagePayload extends RequestPayload {
   @IsNotEmpty()
   file: Express.Multer.File;
 }

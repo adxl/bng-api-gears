@@ -1,11 +1,16 @@
-import { BadRequestException, Controller, UseGuards } from '@nestjs/common';
-import { EventPattern, RpcException } from '@nestjs/microservices';
-import { CreateVehicleSkinDto, UpdateVehicleSkinDtoWrapper, UploadFileDto } from './vehicles-skins.dto';
+import { Controller, UseGuards } from '@nestjs/common';
+import { EventPattern, Payload } from '@nestjs/microservices';
+import {
+  CreateVehicleSkinPayload,
+  UpdateVehicleSkinImagePayload,
+  UpdateVehicleSkinPayload,
+} from './vehicles-skins.dto';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 import { VehiclesSkinsService } from './vehicles-skins.service';
 import { VehicleSkin } from './vehicles-skins.entity';
-import { AuthGuard, RolesGuard } from '../../gears.guard';
+import { AuthGuard, RolesGuard } from '../../auth.guard';
 import { UserRole } from '../../types/user-role';
+import { RequestPayload } from '../../types';
 
 @Controller()
 export class VehiclesSkinsController {
@@ -19,34 +24,31 @@ export class VehiclesSkinsController {
 
   @EventPattern('vehiclesSkins.findOne')
   @UseGuards(new RolesGuard('*'), AuthGuard)
-  findOne(id: string): Promise<VehicleSkin> {
-    return this.vehiclesSkinsService.findOne(id);
+  findOne(@Payload() payload: RequestPayload): Promise<VehicleSkin> {
+    return this.vehiclesSkinsService.findOne(payload.id);
   }
 
   @EventPattern('vehiclesSkins.create')
   @UseGuards(new RolesGuard([UserRole.TECHNICIAN]), AuthGuard)
-  create(data: CreateVehicleSkinDto): Promise<InsertResult> {
-    return this.vehiclesSkinsService.create(data);
+  create(@Payload() payload: CreateVehicleSkinPayload): Promise<InsertResult> {
+    return this.vehiclesSkinsService.create(payload.body);
   }
 
   @EventPattern('vehiclesSkins.update')
   @UseGuards(new RolesGuard([UserRole.TECHNICIAN]), AuthGuard)
-  update(data: UpdateVehicleSkinDtoWrapper): Promise<UpdateResult> {
-    if (Object.keys(data.body).length === 0) {
-      throw new RpcException(new BadRequestException('Payload must not be empty'));
-    }
-    return this.vehiclesSkinsService.update(data.id, data.body);
+  update(@Payload() payload: UpdateVehicleSkinPayload): Promise<UpdateResult> {
+    return this.vehiclesSkinsService.update(payload.id, payload.body);
   }
 
   @EventPattern('vehiclesSkins.uploadFile')
   @UseGuards(new RolesGuard([UserRole.TECHNICIAN]), AuthGuard)
-  uploadFile(data: UploadFileDto): Promise<UpdateResult> {
-    return this.vehiclesSkinsService.uploadFile(data.id, data.file);
+  uploadFile(@Payload() payload: UpdateVehicleSkinImagePayload): Promise<UpdateResult> {
+    return this.vehiclesSkinsService.uploadFile(payload.id, payload.file);
   }
 
   @EventPattern('vehiclesSkins.remove')
   @UseGuards(new RolesGuard([UserRole.TECHNICIAN]), AuthGuard)
-  remove(id: string): Promise<DeleteResult> {
-    return this.vehiclesSkinsService.remove(id);
+  remove(@Payload() payload: RequestPayload): Promise<DeleteResult> {
+    return this.vehiclesSkinsService.remove(payload.id);
   }
 }

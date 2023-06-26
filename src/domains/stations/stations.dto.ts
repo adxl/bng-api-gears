@@ -1,5 +1,15 @@
 import { Type } from 'class-transformer';
-import { IsBoolean, IsLatitude, IsLongitude, IsOptional, IsString, IsUUID, ValidateNested } from 'class-validator';
+import {
+  IsBoolean,
+  IsLatitude,
+  IsLongitude,
+  IsNotEmptyObject,
+  IsOptional,
+  IsString,
+  IsUUID,
+  ValidateNested,
+} from 'class-validator';
+import { RequestPayload } from 'src/types';
 
 export class CreateStationDto {
   @IsString()
@@ -11,6 +21,15 @@ export class CreateStationDto {
   @IsLongitude()
   longitude: number;
 }
+
+export class CreateStationPayload extends RequestPayload {
+  @IsNotEmptyObject()
+  @ValidateNested()
+  @Type(() => CreateStationDto)
+  body: CreateStationDto;
+}
+
+// ---
 
 export class UpdateStationDto {
   @IsOptional()
@@ -34,10 +53,8 @@ export class UpdateStationDto {
   eventId?: string;
 }
 
-export class UpdateStationDtoWrapper {
-  @IsUUID(4)
-  id: string;
-
+export class UpdateStationPayload extends RequestPayload {
+  @IsNotEmptyObject()
   @ValidateNested()
   @Type(() => UpdateStationDto)
   body: UpdateStationDto;
