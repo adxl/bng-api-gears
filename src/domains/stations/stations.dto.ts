@@ -47,10 +47,6 @@ export class UpdateStationDto {
   @IsOptional()
   @IsBoolean()
   active?: boolean;
-
-  @IsOptional()
-  @IsUUID()
-  eventId?: string;
 }
 
 export class UpdateStationPayload extends RequestPayload {
@@ -58,4 +54,19 @@ export class UpdateStationPayload extends RequestPayload {
   @ValidateNested()
   @Type(() => UpdateStationDto)
   body: UpdateStationDto;
+}
+
+// ---
+
+export class UpdateStationEventDto {
+  @IsOptional()
+  @IsUUID()
+  eventId?: string;
+}
+
+export class UpdateStationEventPayload extends RequestPayload {
+  @IsNotEmptyObject()
+  @ValidateNested()
+  @Type(() => UpdateStationEventDto)
+  body: UpdateStationEventDto;
 }
