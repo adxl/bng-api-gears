@@ -1,6 +1,6 @@
 import { Controller, UseGuards } from '@nestjs/common';
 import { EventPattern, Payload } from '@nestjs/microservices';
-import { CreateStationPayload, UpdateStationPayload } from './stations.dto';
+import { CreateStationPayload, UpdateStationEventPayload, UpdateStationPayload } from './stations.dto';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 import { StationsService } from './stations.service';
 import { Station } from './stations.entity';
@@ -39,6 +39,12 @@ export class StationsController {
   @EventPattern('stations.update')
   @UseGuards(new RolesGuard([UserRole.TECHNICIAN]), AuthGuard)
   update(@Payload() payload: UpdateStationPayload): Promise<UpdateResult> {
+    return this.stationsService.update(payload.id, payload.body);
+  }
+
+  @EventPattern('stations.event.update')
+  @UseGuards(new RolesGuard([UserRole.ORGANIZER]), AuthGuard)
+  updateEvent(@Payload() payload: UpdateStationEventPayload): Promise<UpdateResult> {
     return this.stationsService.update(payload.id, payload.body);
   }
 

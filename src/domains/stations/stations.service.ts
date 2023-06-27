@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, In, InsertResult, Repository, UpdateResult } from 'typeorm';
-import { CreateStationDto, UpdateStationDto } from './stations.dto';
+import { CreateStationDto, UpdateStationDto, UpdateStationEventDto } from './stations.dto';
 import { Station } from './stations.entity';
 
 @Injectable()
@@ -51,7 +51,7 @@ export class StationsService {
     return this.stationsRepository.insert(data);
   }
 
-  async update(id: string, data: UpdateStationDto): Promise<UpdateResult> {
+  async update(id: string, data: UpdateStationDto | UpdateStationEventDto): Promise<UpdateResult> {
     await this.findOne(id);
     return this.stationsRepository.update(id, data);
   }
