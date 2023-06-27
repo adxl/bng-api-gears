@@ -1,4 +1,4 @@
-import { IsOptional, IsString, IsUUID } from 'class-validator';
+import { ArrayNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 import { UserRole } from './user-role';
 
 export class EntityReference {
@@ -8,11 +8,12 @@ export class EntityReference {
 
 export class RequestPayload {
   @IsOptional()
-  @IsString()
+  @IsUUID(4)
   id?: string;
 
   @IsOptional()
-  @IsString({ each: true })
+  @IsUUID(4, { each: true })
+  @ArrayNotEmpty()
   ids?: string[];
 
   @IsOptional()

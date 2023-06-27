@@ -1,10 +1,9 @@
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { Service } from '../constants';
 
-export const ClientProxy = (service: Service, host: string, port: string) =>
+export const ClientProxy = (service: string, host: string, port: string) =>
   ClientsModule.register([
     {
-      name: service.name,
+      name: service,
       transport: Transport.TCP,
       options: {
         host,
