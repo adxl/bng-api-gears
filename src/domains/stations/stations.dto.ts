@@ -9,7 +9,7 @@ import {
   IsUUID,
   ValidateNested,
 } from 'class-validator';
-import { RequestPayload } from 'src/types';
+import { RequestPayload } from '../../types';
 
 export class CreateStationDto {
   @IsString()

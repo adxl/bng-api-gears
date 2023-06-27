@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthGuard } from '../../gears.guard';
+import { AuthGuard } from '../../auth.guard';
 import { TypeOrmConfig } from '../../config/typeorm.config';
 import { VehicleSkin } from '../vehicles-skins/vehicles-skins.entity';
-
+import { ClientProxy } from '../../config/proxy.config';
 import { VehiclesTypesController } from './vehicles-types.controller';
 import { VehicleType } from './vehicles-types.entity';
 import { VehiclesTypesModule } from './vehicles-types.module';
@@ -15,6 +15,7 @@ describe('Tests types', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
+        ClientProxy('AUTH_SERVICE', process.env.AUTH_HOST || 'auth-api-service', process.env.AUTH_PORT || '9000'),
         TypeOrmModule.forRoot(TypeOrmConfig),
         TypeOrmModule.forFeature([VehicleType, VehicleSkin]),
         VehiclesTypesModule,
@@ -35,24 +36,24 @@ describe('Tests types', () => {
 
   describe('Test find one type', () => {
     it('should return one type', async () => {
-      const vehicleType = await typesController.findOne('33333333-bab3-439d-965d-0522568b0003');
+      const vehicleType = await typesController.findOne({ id: '33333333-bab3-439d-965d-0522568b0003' });
 
       expect(vehicleType.name).toBe('Exosquelette motorisé');
       expect(vehicleType.capsMilestone).toBe(200);
     });
 
     it('should throws a not found exception', async () => {
-      await expect(typesController.findOne('33333333-bab3-439d-965d-0522568b0333')).rejects.toThrow();
+      await expect(typesController.findOne({ id: '33333333-bab3-439d-965d-0522568b0333' })).rejects.toThrow();
     });
   });
 
   describe('Test create type', () => {
     it('should return an UUID', async () => {
-      const data = {
+      const body = {
         name: 'Armure de combat',
         capsMilestone: 600,
       };
-      expect((await typesController.create(data)).identifiers[0].id).toHaveLength(36);
+      expect((await typesController.create({ body })).identifiers[0].id).toHaveLength(36);
     });
   });
 
@@ -72,7 +73,7 @@ describe('Tests types', () => {
   describe('Test remove one type', () => {
     it('should return the number of affected resources', async () => {
       const data = '33333333-bab3-439d-965d-0522568b0002';
-      expect((await typesController.remove(data)).affected).toEqual(1);
+      expect((await typesController.remove({ id: data })).affected).toEqual(1);
     });
   });
 });

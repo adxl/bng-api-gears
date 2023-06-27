@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthGuard } from '../../gears.guard';
+import { ClientProxy } from '../../config/proxy.config';
 import { TypeOrmConfig } from '../../config/typeorm.config';
 import { Station } from '../stations/stations.entity';
 import { StationsService } from '../stations/stations.service';
@@ -14,8 +14,13 @@ describe('Tests vehicles', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(TypeOrmConfig), TypeOrmModule.forFeature([Vehicle, Station]), VehiclesModule],
-      providers: [VehiclesService, StationsService, AuthGuard],
+      imports: [
+        ClientProxy('AUTH_SERVICE', process.env.AUTH_HOST || 'auth-api-service', process.env.AUTH_PORT || '9000'),
+        TypeOrmModule.forRoot(TypeOrmConfig),
+        TypeOrmModule.forFeature([Vehicle, Station]),
+        VehiclesModule,
+      ],
+      providers: [VehiclesService, StationsService],
       controllers: [VehiclesController],
     }).compile();
 
@@ -31,25 +36,25 @@ describe('Tests vehicles', () => {
 
   describe('Test find one vehicle', () => {
     it('should return one vehicle', async () => {
-      const vehicle = await vehiclesController.findOne('22222222-bab3-439d-965d-0522568b0012');
+      const vehicle = await vehiclesController.findOne({ id: '22222222-bab3-439d-965d-0522568b0012' });
 
       expect(vehicle.type.id).toBe('33333333-bab3-439d-965d-0522568b0003');
       expect(vehicle.station.id).toBe('11111111-bab3-439d-965d-0522568b0001');
     });
 
     it('should throws a not found exception', async () => {
-      await expect(vehiclesController.findOne('22222222-bab3-439d-965d-0522568b0222')).rejects.toThrow();
+      await expect(vehiclesController.findOne({ id: '22222222-bab3-439d-965d-0522568b0222' })).rejects.toThrow();
     });
   });
 
   describe('Test create vehicle', () => {
     it('should return an UUID', async () => {
-      const data = {
+      const body = {
         year: 2085,
         type: { id: '33333333-bab3-439d-965d-0522568b0000' },
         station: { id: '11111111-bab3-439d-965d-0522568b0004' },
       };
-      expect((await vehiclesController.create(data)).identifiers[0].id).toHaveLength(36);
+      expect((await vehiclesController.create({ body })).identifiers[0].id).toHaveLength(36);
     });
   });
 
@@ -69,7 +74,7 @@ describe('Tests vehicles', () => {
   describe('Test remove one vehicle', () => {
     it('should return the number of affected resources', async () => {
       const data = '22222222-bab3-439d-965d-0522568b0058';
-      expect((await vehiclesController.remove(data)).affected).toEqual(1);
+      expect((await vehiclesController.remove({ id: data })).affected).toEqual(1);
     });
   });
 });

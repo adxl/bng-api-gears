@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthGuard } from '../../gears.guard';
+import { AuthGuard } from '../../auth.guard';
 import { TypeOrmConfig } from '../../config/typeorm.config';
 import { Station } from '../stations/stations.entity';
 import { StationsService } from '../stations/stations.service';
@@ -10,13 +10,19 @@ import { RidesController } from './rides.controller';
 import { Ride } from './rides.entity';
 import { RidesModule } from './rides.module';
 import { RidesService } from './rides.service';
+import { ClientProxy } from '../../config/proxy.config';
 
 describe('Tests rides', () => {
   let ridesController: RidesController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(TypeOrmConfig), TypeOrmModule.forFeature([Ride, Vehicle, Station]), RidesModule],
+      imports: [
+        ClientProxy('AUTH_SERVICE', process.env.AUTH_HOST || 'auth-api-service', process.env.AUTH_PORT || '9000'),
+        TypeOrmModule.forRoot(TypeOrmConfig),
+        TypeOrmModule.forFeature([Ride, Vehicle, Station]),
+        RidesModule,
+      ],
       providers: [RidesService, VehiclesService, StationsService, AuthGuard],
       controllers: [RidesController],
     }).compile();
@@ -33,25 +39,25 @@ describe('Tests rides', () => {
 
   describe('Test find one ride', () => {
     it('should return one ride', async () => {
-      const ride = await ridesController.findOne('55555555-b4c5-4aad-887b-ff93aa1a6e03');
+      const ride = await ridesController.findOne({ id: '55555555-b4c5-4aad-887b-ff93aa1a6e03' });
 
       expect(ride.vehicle.id).toBe('22222222-bab3-439d-965d-0522568b0069');
       expect(ride.userId).toBe('c63a4bd1-cabd-44ee-b911-9ee2533dd003');
     });
 
     it('should throws a not found exception', async () => {
-      await expect(ridesController.findOne('55555555-b4c5-4aad-887b-ff93aa1a6e55')).rejects.toThrow();
+      await expect(ridesController.findOne({ id: '55555555-b4c5-4aad-887b-ff93aa1a6e55' })).rejects.toThrow();
     });
   });
 
   describe('Test create ride', () => {
     it('should return an UUID', async () => {
-      const data = {
+      const body = {
         vehicle: { id: '22222222-bab3-439d-965d-0522568b0089' },
         userId: 'c63a4bd1-cabd-44ee-b911-9ee2533dd003',
         skin: { id: '44444444-bab3-439d-965d-0522568b0001' },
       };
-      expect((await ridesController.create(data)).identifiers[0].id).toHaveLength(36);
+      expect((await ridesController.create({ body })).identifiers[0].id).toHaveLength(36);
     });
   });
 

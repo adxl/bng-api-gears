@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthGuard } from '../../gears.guard';
+import { AuthGuard } from '../../auth.guard';
 import { TypeOrmConfig } from '../../config/typeorm.config';
 import { ImageryHelper } from './imagery.helper';
-
+import { ClientProxy } from '../../config/proxy.config';
 import { VehiclesSkinsController } from './vehicles-skins.controller';
 import { VehicleSkin } from './vehicles-skins.entity';
 import { VehiclesSkinsModule } from './vehicles-skins.module';
@@ -14,7 +14,12 @@ describe('Tests skins', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(TypeOrmConfig), TypeOrmModule.forFeature([VehicleSkin]), VehiclesSkinsModule],
+      imports: [
+        ClientProxy('AUTH_SERVICE', process.env.AUTH_HOST || 'auth-api-service', process.env.AUTH_PORT || '9000'),
+        TypeOrmModule.forRoot(TypeOrmConfig),
+        TypeOrmModule.forFeature([VehicleSkin]),
+        VehiclesSkinsModule,
+      ],
       providers: [VehiclesSkinsService, ImageryHelper, AuthGuard],
       controllers: [VehiclesSkinsController],
     }).compile();
@@ -31,25 +36,25 @@ describe('Tests skins', () => {
 
   describe('Test find one skin', () => {
     it('should return one skin', async () => {
-      const vehicleSkin = await skinsController.findOne('44444444-bab3-439d-965d-0522568b0007');
+      const vehicleSkin = await skinsController.findOne({ id: '44444444-bab3-439d-965d-0522568b0007' });
 
       expect(vehicleSkin.name).toBe('Symbiose Organique');
       expect(vehicleSkin.tier).toBe(7);
     });
 
     it('should throws a not found exception', async () => {
-      await expect(skinsController.findOne('44444444-bab3-439d-965d-0522568b0777')).rejects.toThrow();
+      await expect(skinsController.findOne({ id: '44444444-bab3-439d-965d-0522568b0777' })).rejects.toThrow();
     });
   });
 
   describe('Test create skin', () => {
     it('should return an UUID', async () => {
-      const data = {
+      const body = {
         name: 'Fibre de carbone',
         tier: 5,
         image: 'image_url',
       };
-      expect((await skinsController.create(data)).identifiers[0].id).toHaveLength(36);
+      expect((await skinsController.create({ body })).identifiers[0].id).toHaveLength(36);
     });
   });
 
@@ -69,7 +74,7 @@ describe('Tests skins', () => {
   describe('Test remove one skin', () => {
     it('should return the number of affected resources', async () => {
       const data = '44444444-bab3-439d-965d-0522568b0005';
-      expect((await skinsController.remove(data)).affected).toEqual(1);
+      expect((await skinsController.remove({ id: data })).affected).toEqual(1);
     });
   });
 });

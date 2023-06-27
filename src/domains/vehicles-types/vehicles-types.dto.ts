@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsInt, IsNotEmptyObject, IsOptional, IsString, Min, ValidateNested } from 'class-validator';
-import { RequestPayload } from 'src/types';
+import { RequestPayload } from '../../types';
 
 export class CreateVehicleTypeDto {
   @IsString()
