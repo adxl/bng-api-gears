@@ -13,7 +13,15 @@ export class ReportsService {
   ) {}
 
   findAll(): Promise<Report[]> {
-    return this.reportsRepository.find();
+    return this.reportsRepository.find({
+      relations: {
+        ride: {
+          vehicle: { type: true },
+          startStation: true,
+          endStation: true,
+        },
+      },
+    });
   }
 
   async findOne(id: string): Promise<Report> {
