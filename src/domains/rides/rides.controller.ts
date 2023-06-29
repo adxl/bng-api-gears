@@ -43,7 +43,13 @@ export class RidesController {
   }
 
   @EventPattern('rides.info.update')
-  async updateInformation(@Payload() payload: UpdateRideInformationPayload): Promise<string> {
+  @UseGuards(new RolesGuard([UserRole.USER]), AuthGuard)
+  updateInformation(@Payload() payload: UpdateRideInformationPayload): Promise<UpdateResult> {
+    return this.ridesService.updateInformation(payload.id, payload.body);
+  }
+
+  @EventPattern('rides.end')
+  async endRide(@Payload() payload: UpdateRideInformationPayload): Promise<string> {
     await this.ridesService.updateInformation(payload.id, payload.body);
     return 'Vous êtes bien arrivé à destination. (et en un seul morçeau on espère 😇)';
   }

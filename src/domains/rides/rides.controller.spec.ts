@@ -73,6 +73,18 @@ describe('Tests rides', () => {
     });
   });
 
+  describe('Test end ride', () => {
+    it('should return the ending string', async () => {
+      const data = {
+        id: '55555555-b4c5-4aad-887b-ff93aa1a6e07',
+        body: {
+          endStation: { id: '11111111-bab3-439d-965d-0522568b0008' },
+        },
+      };
+      expect(typeof (await ridesController.endRide(data))).toBe('string');
+    });
+  });
+
   describe('Test update ride review', () => {
     it('should return the number of affected resources', async () => {
       const data = {
