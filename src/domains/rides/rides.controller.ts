@@ -13,7 +13,7 @@ export class RidesController {
   constructor(private readonly ridesService: RidesService) {}
 
   @EventPattern('rides.findAll')
-  @UseGuards(new RolesGuard([UserRole.ADMINISTRATOR]), AuthGuard)
+  @UseGuards(new RolesGuard([UserRole.ADMINISTRATOR, UserRole.TECHNICIAN]), AuthGuard)
   findAll(): Promise<Ride[]> {
     return this.ridesService.findAll();
   }
@@ -32,7 +32,7 @@ export class RidesController {
 
   @EventPattern('rides.self.findCurrent')
   @UseGuards(new RolesGuard([UserRole.USER]), AuthGuard)
-  findOneSelf(@Payload() payload: RequestPayload): Promise<Ride> {
+  findOneSelf(@Payload() payload: RequestPayload): Promise<Ride | null> {
     return this.ridesService.findOneByUser(payload.userId);
   }
 
