@@ -41,7 +41,7 @@ export class RidesService {
     return data;
   }
 
-  async findOneByUser(userId: string): Promise<Ride> {
+  async findOneByUser(userId: string): Promise<Ride | null> {
     const data = await this.ridesRepository.findOne({
       where: { userId, endStation: IsNull() },
       relations: {
@@ -52,7 +52,7 @@ export class RidesService {
     });
 
     if (!data) {
-      throw new RpcException(new NotFoundException(`No ride in progress`));
+      return null;
     }
 
     return data;
