@@ -65,6 +65,7 @@ export class RidesService {
       throw new RpcException(new BadRequestException(`Vehicle ${data.vehicle.id} is not available`));
     }
 
+    await this.vehiclesService.update(data.vehicle.id, { station: null });
     return this.ridesRepository.insert({ ...data, startStation: station });
   }
 
