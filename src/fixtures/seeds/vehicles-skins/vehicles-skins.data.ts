@@ -1,6 +1,5 @@
 import { VehicleSkin } from '../../../domains/vehicles-skins/vehicles-skins.entity';
 import { DeepPartial } from 'typeorm';
-import { sk } from '@faker-js/faker';
 
 /*
 fcd75db9-b0fe-49f3-8f17-4a0d39ca1ad8Original.jpg
@@ -35,7 +34,7 @@ export const skins: DeepPartial<VehicleSkin>[] = [
     id: '44444444-bab3-439d-965d-0522568b0005',
     name: 'Flammes Incandescentes',
     tier: 1,
-    image: '84db9cda-68d8-444b-b74d-34a2710b61f9Flammes_incandescentes.jpg',
+    image: 'f8dab76b-e84f-4080-81c8-3a439dbc784aFlammes_incandescantes2.jpg',
   },
   {
     id: '44444444-bab3-439d-965d-0522568b0002',
@@ -65,7 +64,7 @@ export const skins: DeepPartial<VehicleSkin>[] = [
     id: '44444444-bab3-439d-965d-0522568b0006',
     name: 'Hologramme Technologique',
     tier: 6,
-    image: '0c66ea08-aadb-423f-9d06-7a9d76ac24fbHologramme_technologique.jpg',
+    image: '11ee8b95-0bea-47a4-a587-4b4c9728d03dHologramme_technologique2.jpg',
   },
   {
     id: '44444444-bab3-439d-965d-0522568b0007',
