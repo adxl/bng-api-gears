@@ -5,11 +5,13 @@ import { Auction } from './auctions.entity';
 import { AuctionController } from './auctions.controller';
 import { AuctionService } from './auctions.service';
 import { AuctionClick } from './auctions-click.entity';
+import { VehiclesModule } from '../vehicles/vehicles.module';
 
 @Module({
   imports: [
     ClientProxy('AUTH_SERVICE', process.env.AUTH_HOST || 'auth-api-service', process.env.AUTH_PORT || '9000'),
     TypeOrmModule.forFeature([Auction, AuctionClick]),
+    VehiclesModule,
   ],
   controllers: [AuctionController],
   providers: [AuctionService],

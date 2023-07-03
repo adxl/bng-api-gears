@@ -7,6 +7,7 @@ import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { CreateAuctionClickDto, CreateAuctionClickPayload, CreateAuctionDto } from './auctions.dto';
 import { catchError, firstValueFrom, of } from 'rxjs';
 import { RequestPayload } from 'src/types';
+import { VehiclesService } from '../vehicles/vehicles.service';
 
 type User = {
   id: string;
@@ -21,6 +22,9 @@ export class AuctionService {
 
   @InjectRepository(AuctionClick)
   private readonly auctionClickRepository: Repository<AuctionClick>;
+
+  @Inject(VehiclesService)
+  private readonly vehicleService: VehiclesService;
 
   @Inject('AUTH_SERVICE')
   private readonly authProxy: ClientProxy;
@@ -41,6 +45,7 @@ export class AuctionService {
       where: { id, active: true },
       relations: {
         clicks: true,
+        vehicle: true,
       },
     });
 
@@ -105,6 +110,8 @@ export class AuctionService {
       body: { caps: -auction.basePrice - auction.clicks.length },
       token: data.token,
     });
+
+    this.vehicleService.remove(auction.vehicle.id);
 
     return this.auctionRepository.update(data.id, { active: false });
   }
