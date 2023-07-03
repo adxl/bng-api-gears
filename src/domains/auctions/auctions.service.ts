@@ -88,7 +88,7 @@ export class AuctionService {
       throw new RpcException(new BadRequestException('User does not have the necessary caps for this purchase'));
 
     await this.authProxy.send('users.updateCaps', {
-      id: body.userId,
+      id: data.userId,
       body: { caps: -auction.clickPrice },
       token: data.token,
     });

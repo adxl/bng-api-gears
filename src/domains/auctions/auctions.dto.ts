@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsInt, IsNotEmptyObject, IsUUID, ValidateNested } from 'class-validator';
+import { IsInt, IsNotEmptyObject, ValidateNested } from 'class-validator';
 import { EntityReference, RequestPayload } from 'src/types';
 
 export class CreateAuctionDto {
@@ -23,9 +23,6 @@ export class CreateAuctionPayload extends RequestPayload {
 }
 
 export class CreateAuctionClickDto {
-  @IsUUID(4)
-  userId: string;
-
   @ValidateNested()
   @Type(() => EntityReference)
   @IsNotEmptyObject()
