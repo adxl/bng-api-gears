@@ -77,10 +77,9 @@ export class AuctionService {
 
     const user: User | null = await firstValueFrom(userResponse);
 
-    const auction: Auction | null = await this.findOne(data.id);
+    const auction: Auction = await this.findOne(data.id);
 
-    if (!user || !auction)
-      throw new RpcException(new BadRequestException('Please provide all the necessary informations'));
+    if (!user) throw new RpcException(new BadRequestException('Please provide all the necessary informations'));
 
     if (user.caps < auction.basePrice + auction.clicks.length + auction.clickPrice)
       throw new RpcException(new BadRequestException('User does not have the necessary caps for this purchase'));
