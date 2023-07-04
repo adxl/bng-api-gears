@@ -5,7 +5,7 @@ import { Auction } from './auctions.entity';
 import { AuctionService } from './auctions.service';
 import { RequestPayload } from 'src/types';
 import { UserRole } from 'src/types/user-role';
-import { CreateAuctionClickPayload, CreateAuctionPayload } from './auctions.dto';
+import { CreateAuctionPayload } from './auctions.dto';
 import { InsertResult, UpdateResult } from 'typeorm';
 
 @Controller()
@@ -32,7 +32,7 @@ export class AuctionController {
 
   @EventPattern('auctions.click')
   @UseGuards(new RolesGuard('*'), AuthGuard)
-  click(@Payload() payload: CreateAuctionClickPayload): Promise<InsertResult> {
+  click(@Payload() payload: RequestPayload): Promise<InsertResult> {
     return this.auctionsService.click(payload);
   }
 

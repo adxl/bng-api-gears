@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Ride } from '../rides/rides.entity';
 import { Station } from '../stations/stations.entity';
 import { VehicleType } from '../vehicles-types/vehicles-types.entity';
@@ -25,4 +25,7 @@ export class Vehicle {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }

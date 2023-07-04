@@ -50,6 +50,6 @@ export class VehiclesService {
   }
 
   async remove(id: string): Promise<DeleteResult> {
-    return this.vehiclesRepository.delete(id);
+    return this.vehiclesRepository.softDelete(id);
   }
 }

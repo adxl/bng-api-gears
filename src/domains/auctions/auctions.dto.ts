@@ -21,17 +21,3 @@ export class CreateAuctionPayload extends RequestPayload {
   @Type(() => CreateAuctionDto)
   body: CreateAuctionDto;
 }
-
-export class CreateAuctionClickDto {
-  @ValidateNested()
-  @Type(() => EntityReference)
-  @IsNotEmptyObject()
-  auction: EntityReference;
-}
-
-export class CreateAuctionClickPayload extends RequestPayload {
-  @IsNotEmptyObject()
-  @ValidateNested()
-  @Type(() => CreateAuctionClickDto)
-  body: CreateAuctionClickDto;
-}
