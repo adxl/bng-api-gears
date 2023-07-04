@@ -1,13 +1,13 @@
 import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Auction } from './auctions.entity';
-import { AuctionClick } from './auctions-click.entity';
-import { InsertResult, Repository, UpdateResult } from 'typeorm';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
-import { CreateAuctionDto } from './auctions.dto';
+import { InjectRepository } from '@nestjs/typeorm';
 import { catchError, firstValueFrom, of } from 'rxjs';
 import { RequestPayload } from 'src/types';
+import { InsertResult, Repository, UpdateResult } from 'typeorm';
 import { VehiclesService } from '../vehicles/vehicles.service';
+import { AuctionClick } from './auctions-click.entity';
+import { CreateAuctionDto } from './auctions.dto';
+import { Auction } from './auctions.entity';
 
 type User = {
   id: string;
@@ -50,6 +50,18 @@ export class AuctionService {
     });
 
     if (!auction) throw new RpcException(new NotFoundException(`Auction not found for id ${id} !`));
+
+    return auction;
+  }
+
+  public async findActive(): Promise<Auction | null> {
+    const auction: Auction | null = await this.auctionRepository.findOne({
+      where: { active: true },
+      relations: {
+        clicks: true,
+        vehicle: true,
+      },
+    });
 
     return auction;
   }

@@ -22,4 +22,7 @@ export class Auction {
 
   @Column({ nullable: false, default: true })
   active: boolean;
+
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
 }

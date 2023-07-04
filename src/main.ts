@@ -4,15 +4,15 @@ import { Transport } from '@nestjs/microservices';
 import { AppModule } from './app.module';
 
 import * as Sentry from '@sentry/node';
+import { config } from 'aws-sdk';
 import { SentryHttpFilter, SentryRpcFilter } from './filters/sentry.filter';
 import { CustomValidationPipe } from './pipes/validation.pipe';
-import { config } from 'aws-sdk';
 
 export async function bootstrap() {
   const app = await NestFactory.createMicroservice(AppModule, {
     transport: Transport.TCP,
     options: {
-      host: '0.0.0.0',
+      host: process.env.HOST || '0.0.0.0',
       port: Number(process.env.PORT) || 9000,
     },
     logger: ['error', 'warn', 'debug', 'log'] as LogLevel[],
