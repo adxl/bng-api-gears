@@ -26,4 +26,8 @@ export class RequestPayload {
   @IsString()
   @IsOptional()
   userId?: string;
+
+  @IsString()
+  @IsOptional()
+  basic?: string;
 }

@@ -32,6 +32,9 @@ export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: RequestPayload = context.switchToRpc().getData();
 
+    if (request.basic === process.env.INTERNAL_BASIC) return true;
+    if (!request.roles) return false;
+
     const payload = { token: request.token, roles: request.roles };
 
     const observableResponse = this.authProxy.send('auth.verify', payload).pipe(catchError((error) => of(error)));

@@ -37,13 +37,13 @@ export class AuctionController {
   }
 
   @EventPattern('auctions.click')
-  @UseGuards(new RolesGuard('*'), AuthGuard)
+  @UseGuards(new RolesGuard([UserRole.USER]), AuthGuard)
   click(@Payload() payload: RequestPayload): Promise<InsertResult> {
     return this.auctionsService.click(payload);
   }
 
   @EventPattern('auctions.close')
-  @UseGuards(new RolesGuard([UserRole.ADMINISTRATOR]), AuthGuard)
+  @UseGuards(AuthGuard)
   close(@Payload() payload: RequestPayload): Promise<UpdateResult> {
     return this.auctionsService.close(payload);
   }
