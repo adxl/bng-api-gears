@@ -29,17 +29,6 @@ export class AuctionService {
   @Inject('AUTH_SERVICE')
   private readonly authProxy: ClientProxy;
 
-  public async findAll(): Promise<Auction[]> {
-    return this.auctionRepository.find({
-      where: {
-        active: true,
-      },
-      relations: {
-        clicks: true,
-      },
-    });
-  }
-
   public async findOne(id: string): Promise<Auction> {
     const auction: Auction | null = await this.auctionRepository.findOne({
       where: { id, active: true },
@@ -54,7 +43,7 @@ export class AuctionService {
     return auction;
   }
 
-  public async findActive(): Promise<Auction | null> {
+  public async findActive(): Promise<Auction> {
     const auction: Auction | null = await this.auctionRepository.findOne({
       where: { active: true },
       relations: {
@@ -63,15 +52,18 @@ export class AuctionService {
       },
     });
 
+    if (!auction) throw new RpcException(new NotFoundException(`No auction found`));
+
     return auction;
   }
 
   public async create(data: CreateAuctionDto): Promise<InsertResult> {
-    const exists: Auction[] = await this.findAll();
-
-    if (exists.length > 0) throw new RpcException(new BadRequestException('An auction already underway'));
-
-    return this.auctionRepository.insert(data);
+    try {
+      await this.findActive();
+    } catch (e) {
+      return this.auctionRepository.insert(data);
+    }
+    throw new RpcException(new BadRequestException('An auction already underway'));
   }
 
   public async click(data: RequestPayload): Promise<InsertResult> {

@@ -12,12 +12,6 @@ import { AuctionService } from './auctions.service';
 export class AuctionController {
   constructor(private readonly auctionsService: AuctionService) {}
 
-  @EventPattern('auctions.findAll')
-  @UseGuards(new RolesGuard('*'), AuthGuard)
-  findAll(): Promise<Auction[]> {
-    return this.auctionsService.findAll();
-  }
-
   @EventPattern('auctions.findOne')
   @UseGuards(new RolesGuard('*'), AuthGuard)
   findOne(@Payload() payload: RequestPayload): Promise<Auction> {
