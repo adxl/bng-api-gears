@@ -55,19 +55,9 @@ export class AuctionService {
   }
 
   public async create(data: CreateAuctionDto): Promise<InsertResult> {
-    const exists: Auction | null = await this.auctionRepository.findOne({
-      where: {
-        vehicle: {
-          id: data.vehicle.id,
-        },
-        active: true,
-      },
-      relations: {
-        vehicle: true,
-      },
-    });
+    const exists: Auction[] = await this.findAll();
 
-    if (exists) throw new RpcException(new BadRequestException('An auction already exists for this vehicle'));
+    if (exists.length > 0) throw new RpcException(new BadRequestException('An auction already underway'));
 
     return this.auctionRepository.insert(data);
   }
