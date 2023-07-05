@@ -27,7 +27,11 @@ export class ReportsService {
   async findOne(id: string): Promise<Report> {
     const data = await this.reportsRepository.findOne({
       where: { id },
-      relations: ['ride'],
+      relations: {
+        ride: {
+          vehicle: { type: true },
+        },
+      },
     });
 
     if (!data) {
