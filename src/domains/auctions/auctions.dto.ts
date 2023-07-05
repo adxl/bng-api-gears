@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsInt, IsNotEmptyObject, ValidateNested } from 'class-validator';
-import { EntityReference, RequestPayload } from 'src/types';
+import { EntityReference, RequestPayload } from '../../types';
 
 export class CreateAuctionDto {
   @IsInt()

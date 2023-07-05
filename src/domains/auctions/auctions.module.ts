@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ClientProxy } from 'src/config/proxy.config';
-import { Auction } from './auctions.entity';
-import { AuctionController } from './auctions.controller';
-import { AuctionService } from './auctions.service';
-import { AuctionClick } from './auctions-click.entity';
+import { ClientProxy } from '../../config/proxy.config';
 import { VehiclesModule } from '../vehicles/vehicles.module';
+import { AuctionClick } from './auctions-click.entity';
+import { AuctionController } from './auctions.controller';
+import { Auction } from './auctions.entity';
+import { AuctionService } from './auctions.service';
 
 @Module({
   imports: [

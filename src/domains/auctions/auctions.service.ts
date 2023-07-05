@@ -2,8 +2,8 @@ import { BadRequestException, Inject, Injectable, NotFoundException } from '@nes
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
 import { catchError, firstValueFrom, of } from 'rxjs';
-import { RequestPayload } from 'src/types';
 import { InsertResult, Repository, UpdateResult } from 'typeorm';
+import { RequestPayload } from '../../types';
 import { VehiclesService } from '../vehicles/vehicles.service';
 import { AuctionClick } from './auctions-click.entity';
 import { CreateAuctionDto } from './auctions.dto';
