@@ -52,6 +52,11 @@ export class AuctionService {
           type: true,
         },
       },
+      order: {
+        clicks: {
+          timestamp: 'DESC',
+        },
+      },
     });
 
     if (!auction) throw new RpcException(new NotFoundException(`No auction found`));
