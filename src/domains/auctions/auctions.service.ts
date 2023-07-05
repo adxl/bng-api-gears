@@ -48,7 +48,9 @@ export class AuctionService {
       where: { active: true },
       relations: {
         clicks: true,
-        vehicle: true,
+        vehicle: {
+          type: true,
+        },
       },
     });
 
