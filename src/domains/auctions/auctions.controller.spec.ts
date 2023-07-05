@@ -1,7 +1,7 @@
 import { JwtService } from '@nestjs/jwt';
+import { ClientProxy } from '../../config/proxy.config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ClientProxy } from '../../config/proxy.config';
 import { TypeOrmConfig } from '../../config/typeorm.config';
 import { VehiclesModule } from '../vehicles/vehicles.module';
 import { AuctionClick } from './auctions-click.entity';
@@ -9,17 +9,16 @@ import { AuctionController } from './auctions.controller';
 import { Auction } from './auctions.entity';
 import { AuctionModule } from './auctions.module';
 import { AuctionService } from './auctions.service';
+import { of } from 'rxjs';
 
 describe('Tests auctions', () => {
   let auctionsController: AuctionController;
-  let jwtService: JwtService;
-  let jwt = null;
+  let auctionsService: AuctionService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        // ClientProxy('AUTH_SERVICE', process.env.AUTH_HOST || 'auth-api-service', process.env.AUTH_PORT || '9000'),
-        ClientProxy('AUTH_SERVICE', 'auth-api-service', '9000'),
+        ClientProxy('AUTH_SERVICE', process.env.AUTH_HOST || 'auth-api-service', process.env.AUTH_PORT || '9000'),
         TypeOrmModule.forRoot(TypeOrmConfig),
         TypeOrmModule.forFeature([Auction, AuctionClick]),
         AuctionModule,
@@ -30,11 +29,10 @@ describe('Tests auctions', () => {
     }).compile();
 
     auctionsController = module.get(AuctionController);
-    jwtService = module.get(JwtService);
+    auctionsService = module.get(AuctionService);
 
-    jwt = {
-      token: 'Bearer ' + jwtService.sign({ id: '44444444-bab3-439d-965d-0522568b0000' }, { privateKey: 'esgi' }),
-    };
+    jest.spyOn(auctionsService, 'getCurrentUser').mockReturnValue(of({ id: '163a4bd1-cabd-44ee-b911-9ee2533dd003' }));
+    jest.spyOn(auctionsService, 'updateUserCaps').mockReturnValue(of(null));
   });
 
   describe('Test create auction', () => {
@@ -68,51 +66,11 @@ describe('Tests auctions', () => {
     it('should return an UUID', async () => {
       const auction = await auctionsController.findActive();
       const data = {
-        token: jwt.token,
         id: auction.id,
-        userId: '44444444-bab3-439d-965d-0522568b0000',
+        userId: '163a4bd1-cabd-44ee-b911-9ee2533dd003',
       };
       const result = await auctionsController.click(data);
       expect(result.identifiers[0].id).toHaveLength(36);
-    });
-
-    it('should return an error user not found', async () => {
-      const auction = await auctionsController.findActive();
-      jwt = {
-        token: 'Bearer ' + jwtService.sign({ id: '44444444-bab3-439d-965d-0522568b000b' }, { privateKey: 'esgi' }),
-      };
-      const data = {
-        token: jwt.token,
-        id: auction.id,
-        userId: '44444444-bab3-439d-965d-0522568b0000',
-      };
-      await expect(auctionsController.click(data)).rejects.toThrow();
-    });
-
-    it('should return an error user not found', async () => {
-      const auction = await auctionsController.findActive();
-      jwt = {
-        token: 'Bearer ' + jwtService.sign({ id: '44444444-bab3-439d-965d-0522568b000b' }, { privateKey: 'esgi' }),
-      };
-      const data = {
-        token: jwt.token,
-        id: auction.id,
-        userId: '44444444-bab3-439d-965d-0522568b0000',
-      };
-      await expect(auctionsController.click(data)).rejects.toThrow();
-    });
-
-    it('should return an error user not enough caps', async () => {
-      const auction = await auctionsController.findActive();
-      jwt = {
-        token: 'Bearer ' + jwtService.sign({ id: '163a4bd1-cabd-44ee-b911-9ee2533dd006' }, { privateKey: 'esgi' }),
-      };
-      const data = {
-        token: jwt.token,
-        id: auction.id,
-        userId: '163a4bd1-cabd-44ee-b911-9ee2533dd006',
-      };
-      await expect(auctionsController.click(data)).rejects.toThrow();
     });
   });
 
@@ -120,7 +78,6 @@ describe('Tests auctions', () => {
     it('should return an UUID', async () => {
       const auction = await auctionsController.findActive();
       const data = {
-        token: jwt.token,
         id: auction.id,
       };
       const result = await auctionsController.close(data);

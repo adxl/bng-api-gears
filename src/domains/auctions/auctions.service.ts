@@ -74,8 +74,7 @@ export class AuctionService {
   }
 
   public async click(data: RequestPayload): Promise<InsertResult> {
-    const userResponse = this.authProxy.send('auth.me', { token: data.token }).pipe(catchError((error) => of(error)));
-
+    const userResponse = this.getCurrentUser(data.token);
     const user: User | null = await firstValueFrom(userResponse);
 
     const auction: Auction = await this.findOne(data.id);
@@ -85,12 +84,7 @@ export class AuctionService {
     if (user.caps < auction.basePrice + auction.clicks.length + auction.clickPrice)
       throw new RpcException(new BadRequestException('User does not have the necessary caps for this purchase'));
 
-    const observableResponse = this.authProxy.send('users.updateCaps', {
-      id: data.userId,
-      body: { caps: -auction.clickPrice },
-      token: data.token,
-    });
-
+    const observableResponse = this.updateUserCaps(data.userId, -auction.clickPrice, data.token);
     await firstValueFrom(observableResponse);
 
     return this.auctionClickRepository.insert({ auction, userId: user.id, timestamp: new Date() });
@@ -112,16 +106,24 @@ export class AuctionService {
       },
     });
 
-    const observableResponse = this.authProxy.send('users.updateCaps', {
-      id: lastAuctionClick.userId,
-      body: { caps: -auction.basePrice - auction.clicks.length },
-      token: data.token,
-    });
-
+    const observableResponse = this.updateUserCaps(
+      lastAuctionClick.userId,
+      -auction.basePrice - auction.clicks.length,
+      data.token,
+    );
     await firstValueFrom(observableResponse);
 
     this.vehicleService.remove(auction.vehicle.id);
-
     return this.auctionRepository.update(data.id, { active: false });
+  }
+
+  public getCurrentUser(token: string) {
+    return this.authProxy.send('auth.me', { token }).pipe(catchError((error) => of(error)));
+  }
+
+  public updateUserCaps(id: string, caps: number, token: string) {
+    return this.authProxy
+      .send('users.updateCaps', { id, body: { caps }, token })
+      .pipe(catchError((error) => of(error)));
   }
 }

@@ -17,9 +17,9 @@ done
 npm run seed
 
 if [[ "$1" == "--cov" ]]; then
-  npx jest --verbose --detectOpenHandles --coverage src/domains/auction
+  npx jest --verbose --detectOpenHandles --coverage 
 else
-  npx jest --verbose --detectOpenHandles src/domains/auction
+  npx jest --verbose --detectOpenHandles 
 fi
 
 docker container stop bng-test-db
