@@ -10,7 +10,7 @@ export class Auction {
   @Column({ nullable: false, default: 0 })
   basePrice: number;
 
-  @OneToOne(() => Vehicle)
+  @OneToOne(() => Vehicle, (vehicle) => vehicle.auction)
   @JoinColumn()
   vehicle: Vehicle;
 
