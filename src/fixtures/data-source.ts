@@ -7,6 +7,8 @@ import { VehicleType } from '../domains/vehicles-types/vehicles-types.entity';
 import { VehicleSkin } from '../domains/vehicles-skins/vehicles-skins.entity';
 import { Ride } from '../domains/rides/rides.entity';
 import { Report } from '../domains/reports/reports.entity';
+import { Auction } from '../domains/auctions/auctions.entity';
+import { AuctionClick } from '../domains/auctions/auctions-click.entity';
 
 const options: DataSourceOptions & SeederOptions = {
   type: 'postgres',
@@ -17,7 +19,7 @@ const options: DataSourceOptions & SeederOptions = {
   //     rejectUnauthorized: false,
   //   },
   // },
-  entities: [Station, Vehicle, Ride, Report, VehicleType, VehicleSkin],
+  entities: [Station, Vehicle, Ride, Report, VehicleType, VehicleSkin, Auction, AuctionClick],
   seeds: [MainSeeder],
 };
 

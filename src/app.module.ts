@@ -9,6 +9,7 @@ import { ReportsModule } from './domains/reports/reports.module';
 import { StationsModule } from './domains/stations/stations.module';
 import { VehiclesSkinsModule } from './domains/vehicles-skins/vehicles-skins.module';
 import { VehiclesTypesModule } from './domains/vehicles-types/vehicles-types.module';
+import { AuctionModule } from './domains/auctions/auctions.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { VehiclesTypesModule } from './domains/vehicles-types/vehicles-types.mod
     StationsModule,
     VehiclesSkinsModule,
     VehiclesTypesModule,
+    AuctionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

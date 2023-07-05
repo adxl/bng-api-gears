@@ -1,4 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { AuctionClick } from '../domains/auctions/auctions-click.entity';
+import { Auction } from '../domains/auctions/auctions.entity';
 import { Report } from '../domains/reports/reports.entity';
 import { Ride } from '../domains/rides/rides.entity';
 import { Station } from '../domains/stations/stations.entity';
@@ -11,7 +13,7 @@ const IS_LOCAL: boolean = process.env.STAGE === 'local' || process.env.STAGE ===
 export const TypeOrmConfig: TypeOrmModuleOptions = {
   type: 'postgres',
   url: process.env.DATABASE_URL,
-  entities: [Vehicle, Station, Ride, Report, VehicleType, VehicleSkin],
+  entities: [Vehicle, Station, Ride, Report, VehicleType, VehicleSkin, Auction, AuctionClick],
   synchronize: IS_LOCAL,
   ssl: !IS_LOCAL,
   extra: IS_LOCAL
