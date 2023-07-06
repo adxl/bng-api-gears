@@ -59,18 +59,15 @@ export class AuctionService {
       },
     });
 
-    if (!auction) throw new RpcException(new NotFoundException(`No auction found`));
-
     return auction;
   }
 
   public async create(data: CreateAuctionDto): Promise<InsertResult> {
-    try {
-      await this.findActive();
-    } catch (e) {
-      return this.auctionRepository.insert(data);
-    }
-    throw new RpcException(new BadRequestException('An auction already underway'));
+    const auction = await this.findActive();
+
+    if (auction) throw new RpcException(new BadRequestException('An auction already underway'));
+
+    return this.auctionRepository.insert(data);
   }
 
   public async click(data: RequestPayload): Promise<InsertResult> {
