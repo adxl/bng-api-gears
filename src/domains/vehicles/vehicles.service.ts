@@ -50,6 +50,8 @@ export class VehiclesService {
   }
 
   async remove(id: string): Promise<DeleteResult> {
+    const vehicle = await this.findOne(id);
+    if (!vehicle.station) throw new RpcException(new NotFoundException(`Vehicle ${id} cannot be remove`));
     return this.vehiclesRepository.softDelete(id);
   }
 }
