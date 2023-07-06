@@ -71,6 +71,7 @@ jobs:
           sed -i 's|@AWS_S3_ACCESS_KEY@|${{ secrets.AWS_S3_ACCESS_KEY }}|g' ./docker-compose.deploy.yaml
           sed -i 's|@AWS_S3_SECRET_KEY@|${{ secrets.AWS_S3_SECRET_KEY }}|g' ./docker-compose.deploy.yaml
           sed -i 's|@AWS_S3_REGION@|${{ secrets.AWS_S3_REGION }}|g' ./docker-compose.deploy.yaml
+          sed -i 's|@INTERNAL_BASIC@|${{ secrets.INTERNAL_BASIC }}|g' ./docker-compose.deploy.yaml
 
       - name: Config
         uses: appleboy/scp-action@v0.1.4
